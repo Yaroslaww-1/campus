@@ -1,6 +1,24 @@
-# Getting Started with Create React App
+# Getting Started with Campus frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with ```typescript``` template.
+
+## Technologies explanation
+### Frontend
+- [React](https://reactjs.org/) - main library
+- [MobX](https://mobx.js.org/the-gist-of-mobx.html) - state management. [Why do we need it](https://blog.openreplay.com/do-you-really-need-redux-pros-and-cons-of-this-state-management-library) - you can skip Redux part
+- [React Router](https://reactrouter.com/web/example/basic) - navigation
+- [Axios](https://www.npmjs.com/package/axios) - HTTP client for the browser
+### Common
+- [Typescript](https://www.typescriptlang.org/) - better than nothing :)
+- [ESLint](https://www.npmjs.com/package/eslint) - code linter for code conventions
+- [Husky](https://www.npmjs.com/package/husky) - automatic linter on commit
+
+## Files structure explanation
+1. Main folder is **pages/**. Here we have state, local components, containers. **Pages** == **features**.
+2. Shared components (for example buttons, inputs, footer, ...) in **components/**.
+3. Container = component + connection with state. Shared containers (for example 'current user icon' is icon component (located in **components/**) but with state connection (connected to auth state)). Basically main concept is described in [official react docs article](https://reactjs.org/docs/thinking-in-react.html).
+4. Models returned from backend stored under **models/**.
+5. **api/** contains api related stuff - axios wrapper and api endpoints encapsulation.
 
 ## Available Scripts
 
