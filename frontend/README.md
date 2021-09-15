@@ -21,6 +21,26 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 4. Models returned from backend stored under **models/**.
 5. **api/** contains api related stuff - axios wrapper and api endpoints encapsulation.
 
+## Additional code conventions
+### Frontend
+1. Import order (leave empty line between blocks)
+    1. Libraries
+    2. Custom TS code (models, hooks, ...)
+    3. Components
+    4. Styles
+
+Example:
+```js
+import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
+
+import { postsState, PostsState } from "./posts.state";
+
+import { PageComponent } from "@components/index";
+
+import styles from "./styles.module.scss";
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
