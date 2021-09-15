@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import { postsState, PostsState } from "./posts.state";
 
-import { PageComponent } from "../../components";
+import { PageComponent } from "@components/index";
 
 interface IProps {
   state: PostsState;

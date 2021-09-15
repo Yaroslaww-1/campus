@@ -1,5 +1,7 @@
 import { Route, Switch } from "react-router-dom";
-import { AppRoute } from "./common/enums/app-route.enum";
+
+import { AppRoute } from "@common/enums/app-route.enum";
+
 import { HomePage, PostsPage } from "./pages";
 
 export const App = () => {

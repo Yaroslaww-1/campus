@@ -3,8 +3,9 @@ import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import ReactDOM from "react-dom";
 
-import { App } from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+import { App } from "./App";
 
 import "./styles/index.scss";
 

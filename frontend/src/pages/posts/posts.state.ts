@@ -1,8 +1,8 @@
 import { runInAction, makeAutoObservable } from "mobx";
-import { PostsService } from "../../api/services/posts.service";
+import { PostsService } from "@api/services/posts.service";
 
-import { FetchStatus } from "../../common/enums/fetch-status.enum";
-import { Post } from "../../models/post.model";
+import { FetchStatus } from "@common/enums/fetch-status.enum";
+import { Post } from "@models/post.model";
 
 export class PostsState {
   posts: Post[] = [];

@@ -1,8 +1,6 @@
-import { PageComponent } from "../../components";
+import { PageComponent } from "@components/index";
 
-export const HomePage: React.FC = ({
-  children,
-}) => {
+export const HomePage: React.FC = () => {
   return (
     <PageComponent>
       <p>Home</p>
