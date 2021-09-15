@@ -14,7 +14,7 @@
     "node": true
   },
   "settings": {},
-  "plugins": ["@typescript-eslint/eslint-plugin", "prettier"],
+  "plugins": ["@typescript-eslint/eslint-plugin"],
   "extends": [
     "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended"
@@ -49,6 +49,8 @@
     ],
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
+    "semi": "off",
+    "@typescript-eslint/semi": ["error"],
     // Prettier rules replacement
     "max-len": [
       "warn",
@@ -60,7 +62,6 @@
       }
     ],
     "indent": ["error", 2],
-    "semi": ["error", "always"],
     "quotes": ["error", "double"],
     "comma-dangle": ["error", "always-multiline"],
     "object-curly-spacing": ["error", "always"],
