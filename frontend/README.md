@@ -14,6 +14,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [Husky](https://www.npmjs.com/package/husky) - automatic linter on commit
 
 ## Files structure explanation
+0. More real world example of a given architecture you can see [here](https://github.com/Yaroslaww-1/music-ua/tree/main/client).
 1. Main folder is **pages/**. Here we have state, local components, containers. **Pages** == **features**.
 2. Shared components (for example buttons, inputs, footer, ...) in **components/**.
 3. Container = component + connection with state. Shared containers (for example 'current user icon' is icon component (located in **components/**) but with state connection (connected to auth state)). Basically main concept is described in [official react docs article](https://reactjs.org/docs/thinking-in-react.html).
