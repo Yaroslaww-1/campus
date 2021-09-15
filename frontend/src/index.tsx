@@ -1,4 +1,6 @@
 import React from "react";
+import { Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import ReactDOM from "react-dom";
 
 import { App } from "./App";
@@ -8,7 +10,9 @@ import "./styles/index.scss";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router history={createBrowserHistory()}>
+      <App />
+    </Router>
   </React.StrictMode>,
   // eslint-disable-next-line comma-dangle
   document.getElementById("root")
