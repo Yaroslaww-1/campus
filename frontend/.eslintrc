@@ -62,7 +62,7 @@
     "indent": ["error", 2],
     "semi": ["error", "always"],
     "quotes": ["error", "double"],
-    "comma-dangle": ["error", "never"],
+    "comma-dangle": ["error", "always-multiline"],
     "object-curly-spacing": ["error", "always"],
     "react/jsx-closing-bracket-location": [1, "line-aligned"],
     "arrow-parens": ["error", "as-needed"],
