@@ -21,7 +21,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 4. Models returned from backend stored under **models/**.
 5. **api/** contains api related stuff - axios wrapper and api endpoints encapsulation.
 
-## Additional code conventions
+## Additional conventions
 ### Frontend
 1. Import order (leave empty line between blocks)
     1. Libraries
