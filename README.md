@@ -21,5 +21,7 @@ Domain model is available as a [miro diagram](https://miro.com/app/board/o9J_lxc
 ### Architecture detailed ![image](https://user-images.githubusercontent.com/40521835/133401751-7c030f81-cd45-4119-9b54-69dce9c10c91.png)
 ### Progress
 
-Progress can be tracked via trello. [Board join link](https://trello.com/b/i0JNE3Gz/campus)
+Progress can be tracked via trello.\
+[Board link](https://trello.com/b/i0JNE3Gz/campus).\
+[Board join link](https://trello.com/invite/b/i0JNE3Gz/e6f86d266ed018474be065dc833fb457/campus).
 

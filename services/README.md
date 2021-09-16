@@ -4,10 +4,10 @@ This project was bootstrapped with django.
 
 ## Technologies explanation
 ### Backend
-- [Django](https://www.djangoproject.com/) - main library
-- [Django REST Framework](https://www.django-rest-framework.org/) - useful addition to the default django functionality 
+- [Django](https://www.djangoproject.com/) - main library.
+- [Django REST Framework](https://www.django-rest-framework.org/) - useful addition to the default django functionality.
 
-**Note:** all packages can be restored from the **requirements.txt** in the root of any service
+**Note:** all packages can be restored from the **requirements.txt** in the root of any service.
 
 ## Files structure explanation **IMPORTANT!**
 0. All services are fully separated and located in **services/** folder.
