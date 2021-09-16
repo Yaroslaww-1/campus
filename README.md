@@ -4,7 +4,7 @@
 ### Frontend
 Frontend code conventions is available [here](https://github.com/Yaroslaww-1/campus/blob/master/frontend/README.md#additional-conventions).
 ### Backend
-Backend code conventions is available [here](https://github.com/Yaroslaww-1/campus/blob/master/backend/README.md#additional-conventions).
+Backend code conventions is available [here](https://github.com/Yaroslaww-1/campus/blob/master/services/README.md#additional-conventions).
 ### Git
 1. Follow [Git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow#:~:text=The%20overall%20flow%20of%20Gitflow,branch%20is%20created%20from%20develop&text=When%20a%20feature%20is%20complete%20it%20is%20merged%20into%20the,merged%20into%20develop%20and%20main) - **feature/**, **fix/** branches from develop. Committing to develop **only** using Pull Request.
 2. Personally I prefer to add domain (frontend/backend/environment) or task code (if we will have them) at the begin of commit message. Ex: "frontend: added button component" or "Campus-12: added button component".
@@ -13,7 +13,7 @@ Backend code conventions is available [here](https://github.com/Yaroslaww-1/camp
 
 **Frontend** documentation is available [in ./frontend/README.md](https://github.com/Yaroslaww-1/campus/blob/master/frontend/README.md).
 
-**Backend** documentation is available [in ./backend/README.md](https://github.com/Yaroslaww-1/campus/blob/master/backend/README.md).
+**Backend** documentation is available [in ./services/README.md](https://github.com/Yaroslaww-1/campus/blob/master/services/README.md).
 
 ### Domain
 Domain model is available as a [miro diagram](https://miro.com/app/board/o9J_lxctPJA=/).
