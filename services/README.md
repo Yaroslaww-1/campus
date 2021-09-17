@@ -45,3 +45,11 @@ Open [http://localhost:8000](http://localhost:8000) to view it in the browser.
 
 API will reload if you make edits.\
 You will also see any lint errors in the console.
+
+### `python manage.py makemigrations [appname]`
+
+Creates migrations
+
+### `python manage.py migrate [appname] [migrationname]`
+
+Applies migrations
