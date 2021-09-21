@@ -8,5 +8,8 @@ class UserRepository:
     def get_users(self):
         return User.objects.all()
 
+    def get_user_by_id(self, id):
+        return User.objects.get(id=id)
+
 
 user_repository = UserRepository()

@@ -15,6 +15,14 @@ def get_users(request):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+def get_user_by_id(request, id):
+    user = user_service.get_user_by_id(id)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+
+
 users_urlpatterns = [
     path(f'{COMMON_ROUTE_URL}/users/', get_users),
+    path(f'{COMMON_ROUTE_URL}/users/<str:id>/', get_user_by_id),
 ]
