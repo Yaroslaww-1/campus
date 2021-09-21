@@ -43,35 +43,35 @@ async def fetch_all_group_schedule(session, groups):
     return result
 
 
-async def get_pears_info(html_list: list[BeautifulSoup]) -> list:
+async def get_pairs_info(html_list: list[BeautifulSoup]) -> list:
     days = [day.text for day in html_list[0].find_all('td') if day.text]
-    list_of_pears = []
-    for pear_number, item in enumerate(html_list[1:], 1):
+    list_of_pairs = []
+    for pair_number, item in enumerate(html_list[1:], 1):
         for index, tags in enumerate([tags for tags in item.find_all('td')][1:]):
             try:
-                pears_block = tags.find('span', attrs={'class': 'disLabel'}).find_all('a')
+                pairs_block = tags.find('span', attrs={'class': 'disLabel'}).find_all('a')
                 learners_block = tags.find_all('a', attrs={'href': re.compile("/Schedules/ViewSchedule.*")})
-                for idx in range(len(pears_block)):
-                    list_of_pears.append({
-                        "is_pear": True,
+                for idx in range(len(pairs_block)):
+                    list_of_pairs.append({
+                        "is_pair": True,
                         "day": days[index],
-                        "pear_number": pear_number,
-                        "pear_name": pears_block[idx].get('title'),
-                        "pear_link": pears_block[idx].get('href').replace(' ', '_'),
+                        "pair_number": pair_number,
+                        "pair_name": pairs_block[idx].get('title'),
+                        "pair_link": pairs_block[idx].get('href').replace(' ', '_'),
                         "learner_name": learners_block[idx].get('title'),
                         "learner_link": f"http://rozklad.kpi.ua{learners_block[idx].get('href')}"
                     })
             except AttributeError:
-                list_of_pears.append({
-                    "is_pear": False,
+                list_of_pairs.append({
+                    "is_pair": False,
                     "day": days[index],
-                    "pear_number": pear_number,
-                    "pear_name": "",
-                    "pear_link": "",
+                    "pair_number": pair_number,
+                    "pair_name": "",
+                    "pair_link": "",
                     "learner_name": "",
                     "learner_link": ""
                 })
-    return list_of_pears
+    return list_of_pairs
 
 
 async def get_site_content(html) -> dict:
@@ -79,14 +79,14 @@ async def get_site_content(html) -> dict:
     group = re.sub(r'Розклад занять для\s*', '', soup.find('span', attrs={'id': 'ctl00_MainContent_lblHeader'}).text)
 
     first_week = soup.find('table', attrs={'id': 'ctl00_MainContent_FirstScheduleTable'}).find_all('tr')
-    pears_info_fw = await get_pears_info(first_week)
+    pairs_info_fw = await get_pairs_info(first_week)
 
     second_week = soup.find('table', attrs={'id': 'ctl00_MainContent_SecondScheduleTable'}).find_all('tr')
-    pears_info_sw = await get_pears_info(second_week)
+    pairs_info_sw = await get_pairs_info(second_week)
     return {
         "group": group,
-        "first_week": pears_info_fw,
-        "second_week": pears_info_sw
+        "first_week": pairs_info_fw,
+        "second_week": pairs_info_sw
     }
 
 
