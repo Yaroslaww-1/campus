@@ -13,5 +13,16 @@ class UserService:
         user = self.user_repository.get_user_by_id(id)
         return user
 
+    def create_user(self, id, name, email):
+        user = self.user_repository.create_user(id, name, email)
+        return user
+
+    def update_user(self, id, name, email):
+        user = self.user_repository.update_user(id, name, email)
+        return user
+
+    def delete_user_by_id(self, id):
+        self.user_repository.delete_user_by_id(id)
+
 
 user_service = UserService(user_repository)
