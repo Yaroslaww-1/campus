@@ -18,34 +18,32 @@ def process_users(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == "POST":
         serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            try:
-                user_service.get_user_by_id(serializer.validated_data.get('id'))
-                return Response(status=status.HTTP_409_CONFLICT)
-            except ObjectDoesNotExist:
-                user = user_service.create_user(serializer.validated_data.get('id'),
-                                                serializer.validated_data.get('name'),
-                                                serializer.validated_data.get('email'))
-                serializer = UserSerializer(user)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        try:
+            user_service.get_user_by_id(serializer.validated_data.get('id'))
+            return Response(status=status.HTTP_409_CONFLICT)
+        except ObjectDoesNotExist:
+            user = user_service.create_user(serializer.validated_data.get('id'),
+                                            serializer.validated_data.get('name'),
+                                            serializer.validated_data.get('email'))
+            serializer = UserSerializer(user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
     elif request.method == "PUT":
         serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            try:
-                user_service.get_user_by_id(serializer.validated_data.get('id'))
-                user = user_service.update_user(serializer.validated_data.get('id'),
-                                                serializer.validated_data.get('name'),
-                                                serializer.validated_data.get('email'))
-                serializer = UserSerializer(user)
-                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-            except ObjectDoesNotExist:
-                user = user_service.create_user(serializer.validated_data.get('id'),
-                                                serializer.validated_data.get('name'),
-                                                serializer.validated_data.get('email'))
-                serializer = UserSerializer(user)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        try:
+            user_service.get_user_by_id(serializer.validated_data.get('id'))
+            user = user_service.update_user(serializer.validated_data.get('id'),
+                                            serializer.validated_data.get('name'),
+                                            serializer.validated_data.get('email'))
+            serializer = UserSerializer(user)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        except ObjectDoesNotExist:
+            user = user_service.create_user(serializer.validated_data.get('id'),
+                                            serializer.validated_data.get('name'),
+                                            serializer.validated_data.get('email'))
+            serializer = UserSerializer(user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET', "DELETE"])
