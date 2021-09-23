@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 
@@ -7,6 +9,6 @@ class Post(models.Model):
 
 
 class User(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
