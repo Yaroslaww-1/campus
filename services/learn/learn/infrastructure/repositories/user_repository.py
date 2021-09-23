@@ -11,9 +11,9 @@ class UserRepository:
     def get_user_by_id(self, id):
         return User.objects.get(id=id)
 
-    def create_user(self, id, name, email):
-        User.objects.create(id=id, name=name, email=email)
-        return User.objects.get(id=id)
+    def create_user(self, name, email):
+        User.objects.create(name=name, email=email)
+        return User.objects.get(name=name)
 
     def update_user(self, id, name, email):
         User.objects.filter(id=id).update(name=name, email=email)

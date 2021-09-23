@@ -13,8 +13,8 @@ class UserService:
         user = self.user_repository.get_user_by_id(id)
         return user
 
-    def create_user(self, id, name, email):
-        user = self.user_repository.create_user(id, name, email)
+    def create_user(self, name, email):
+        user = self.user_repository.create_user(name, email)
         return user
 
     def update_user(self, id, name, email):
