@@ -27,7 +27,6 @@ def process_users(request):
     elif request.method == "PUT":
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user_service.get_user_by_id(serializer.validated_data.get('id'))
         user = user_service.update_user(serializer.validated_data.get('id'),
                                         serializer.validated_data.get('name'),
                                         serializer.validated_data.get('email'))
@@ -42,7 +41,6 @@ def process_user_by_id(request, id):
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == "DELETE":
-        user_service.get_user_by_id(id)
         user_service.delete_user_by_id(id)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
