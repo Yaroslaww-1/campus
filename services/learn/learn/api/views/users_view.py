@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from learn.api.constants import COMMON_ROUTE_URL
 from learn.api.serializers.user_serializer import UserSerializer
+from learn.api.serializers.user_serializer import UserCreateSerializer
 from learn.domain.users.user_service import user_service
 
 
@@ -17,10 +18,9 @@ def process_users(request):
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == "POST":
-        serializer = UserSerializer(data=request.data)
+        serializer = UserCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = user_service.create_user(serializer.validated_data.get('id'),
-                                        serializer.validated_data.get('name'),
+        user = user_service.create_user(serializer.validated_data.get('name'),
                                         serializer.validated_data.get('email'))
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
