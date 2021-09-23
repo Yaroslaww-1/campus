@@ -1,5 +1,12 @@
 # Сampus
 
+## Contributors
+- Yaroslav Borodaienko
+- Nazarii Striletskyi
+- Vladyslav Skrypets
+- Daria Shnirkova
+- Sophia Shults
+
 ## Conventions
 ### Frontend
 Frontend code conventions is available [here](https://github.com/Yaroslaww-1/campus/blob/master/frontend/README.md#additional-conventions).
