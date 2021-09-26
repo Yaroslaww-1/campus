@@ -1,10 +1,11 @@
-from learn.domain.common.base_entity import BaseEntity
+import uuid
+
 from learn.domain.posts.value_objects.post_id import PostId
 
 
-class Post(BaseEntity):
+class Post():
     def __init__(self, id: PostId, name: str):
-        super().__init__(id)
+        self.id = id
         self.name = name
 
     # Just an example. TODO: remove
@@ -12,6 +13,7 @@ class Post(BaseEntity):
         return f'{base_posts_url}/{self.id}'
 
     @classmethod
-    def create_new_post(cls, id: PostId, name: str) -> "Post":
+    def create_new_post(cls, name: str) -> "Post":
+        id = PostId(value=uuid.uuid4())
         post = Post(id, name)
         return post
