@@ -1,26 +1,24 @@
+from django.http import JsonResponse, HttpResponse
 from django.urls import path
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.response import Response
 
 from learn.api.constants import COMMON_ROUTE_URL
-from learn.api.serializers.post_serializer import PostSerializer
-from learn.domain.posts.post_service import post_service
-
-@api_view(['GET'])
-def get_posts(request):
-    posts = post_service.get_posts()
-    serializer = PostSerializer(posts, many=True)
-    return Response(serializer.data)
+from learn.api.serializers.dto_serializer import DtoSerializer
+from learn.application.posts.create_post.create_post_command import CreatePostCommand, CreatePostCommandDto
+from learn.application.posts.get_posts.get_posts_query import GetPostsQuery
 
 
-@api_view(['GET'])
-def get_post(request, pk):
-    posts = post_service.get_posts()
-    serializer = PostSerializer(posts, many=True)
-    return Response(serializer.data[0])
+@api_view(['GET', 'POST'])
+def process_posts(request):
+    if request.method == "GET":
+        posts = GetPostsQuery().execute()
+        return JsonResponse(DtoSerializer.to_dict(posts, many=True), safe=False)
+    elif request.method == "POST":
+        dto = DtoSerializer.from_json(request.data, CreatePostCommandDto)
+        post = CreatePostCommand().execute(dto)
+        return JsonResponse(DtoSerializer.to_dict(post), safe=False)
+
 
 posts_urlpatterns = [
-    path(f'{COMMON_ROUTE_URL}/posts/', get_posts),
-    path(f'{COMMON_ROUTE_URL}/posts/<str:pk>/', get_post),
+    path(f'{COMMON_ROUTE_URL}/posts', process_posts),
 ]
