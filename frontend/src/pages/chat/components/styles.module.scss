@@ -1,0 +1,29 @@
+.userItem {
+  width: 250px;
+  padding: 10px;
+  border: 1px solid grey;
+  border-top: none; // only for test view
+}
+
+.nameRoleWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 1.17em;
+}
+
+.role {
+  font-size: 0.8em;
+}
+
+.status {
+  font-size: 0.9em;
+}
+
+.online {
+  color: rgb(94, 179, 212);
+}
