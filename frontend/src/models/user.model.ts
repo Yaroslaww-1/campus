@@ -1,5 +1,5 @@
 export type User = {
-  id: string;
+  id?: string;
   name: string;
   role: string;
   status: string;
