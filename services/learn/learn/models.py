@@ -16,3 +16,18 @@ class User(models.Model):
     email = models.CharField(max_length=100)
 
     objects = models.Manager()
+
+
+class Group(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    name = models.CharField(max_length=100)
+
+    objects = models.Manager()
+
+
+class Student(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+    objects = models.Manager()
