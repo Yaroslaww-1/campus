@@ -21,11 +21,12 @@ class User(models.Model):
 class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     name = models.CharField(max_length=100)
+    formed_at_year = models.IntegerField()
 
     objects = models.Manager()
 
 
-class Student(models.Model):
+class StudentGroup(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
