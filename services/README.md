@@ -70,3 +70,7 @@ Creates migrations
 ### `python manage.py migrate [appname] [migrationname]`
 
 Applies migrations
+
+### `python manage.py seed`
+
+Applies seed
