@@ -1,6 +1,40 @@
-.root {
-  height: 300px;
-  margin: 10px 0px 10px 0px;
+@import 'styles/variables.scss';
 
-  border: 2px solid black;
+.root {
+  margin: 10px 0px 10px 0px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 2px solid $colorLightBlue;
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: $colorLightGray;
+  }
+
+  .name {
+    margin: 0;
+    font-size: 1.75rem;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+
+    margin-top: 20px;
+
+    * {
+      margin: 0;
+    }
+
+    .createdAt {
+      color: $colorGray;
+      width: fit-content;
+    }
+  }
 }

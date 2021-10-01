@@ -1,0 +1,10 @@
+.root {
+  height: 400px;
+  width: 100%;
+
+  .image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover
+  }
+}

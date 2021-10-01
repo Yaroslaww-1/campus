@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { postsState, PostsState } from "../../posts.state";
 
 import { PageComponent } from "@components/index";
-import { PostComponent } from "@pages/posts/components/post";
+import { PostsListComponent } from "@pages/posts/components/posts-list";
 
 interface IProps {
   state: PostsState;
@@ -17,7 +17,7 @@ const PostsListContainerContent: React.FC<IProps> = observer(({ state }) => {
 
   return (
     <PageComponent>
-      {state.posts.map(post => <PostComponent key={post.id} post={post} />)}
+      <PostsListComponent posts={state.posts} />
     </PageComponent>
   );
 });
