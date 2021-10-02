@@ -28,7 +28,7 @@ class Group(models.Model):
 
 class StudentGroup(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4())
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     objects = models.Manager()
