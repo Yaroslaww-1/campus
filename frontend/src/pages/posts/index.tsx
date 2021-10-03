@@ -1,26 +1,12 @@
-import { useEffect } from "react";
-import { observer } from "mobx-react-lite";
-
-import { postsState, PostsState } from "./posts.state";
-
 import { PageComponent } from "@components/index";
+import { PostsListContainer } from "./containers/posts-list";
 
-interface IProps {
-  state: PostsState;
-}
+import styles from "./styles.module.scss";
 
-const PostsPageContent: React.FC<IProps> = observer(({ state }) => {
-  useEffect(() => {
-    state.fetchPosts();
-  }, []);
-
+export const PostsPage: React.FC = () => {
   return (
-    <PageComponent>
-      {state.posts.map(post => <p key={post.id}>{post.id} - {post.name}</p>)}
+    <PageComponent classes={{ root: styles.root }}>
+      <PostsListContainer />
     </PageComponent>
   );
-});
-
-export const PostsPage: React.FC = () => (
-  <PostsPageContent state={postsState} />
-);
+};
