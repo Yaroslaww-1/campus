@@ -35,6 +35,6 @@ class StudentGroup(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "studentGroup"
+        db_table = "student_group"
 
     objects = models.Manager()
