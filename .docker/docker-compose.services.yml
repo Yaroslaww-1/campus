@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  campus_learn_db:
+    image: postgres:13.4
+    container_name: campus_learn_db
+    restart: always
+    ports:
+      - 7433:5432
+    networks:
+      - campus-learn-network
+    env_file:
+      - ./.env/learn.env
+    volumes:
+      - campus-learn-db-data:/var/lib/postgresql/data
+
+volumes:
+  campus-learn-db-data:
+    driver: local
+
+networks:
+  campus-learn-network:
+    driver: bridge
