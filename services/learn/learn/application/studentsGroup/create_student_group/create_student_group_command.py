@@ -1,10 +1,10 @@
 import inject
 from pydantic import BaseModel, UUID4
 
-from learn.application.studentGroup.dtos.student_group_dto import StudentGroupDto
-from learn.application.studentGroup.student_group_mapper import StudentGroupMapper
-from learn.domain.studentGroup.entities.studentGroup import StudentGroup
-from learn.infrastructure.repositories.studentGroup_repository import StudentGroupRepository
+from learn.application.studentsGroup.dtos.student_group_dto import StudentGroupDto
+from learn.application.studentsGroup.student_group_mapper import StudentGroupMapper
+from learn.domain.students_group.entities.student_group import StudentGroup
+from learn.infrastructure.repositories.student_group_repository import StudentGroupRepository
 
 
 class CreateStudentGroupCommandDto(BaseModel):

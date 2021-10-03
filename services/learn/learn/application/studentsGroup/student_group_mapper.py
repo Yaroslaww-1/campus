@@ -1,7 +1,7 @@
 from typing import List
 
-from learn.application.studentGroup.dtos.student_group_dto import StudentGroupDto
-from learn.domain.studentGroup.entities.studentGroup import StudentGroup
+from learn.application.studentsGroup.dtos.student_group_dto import StudentGroupDto
+from learn.domain.students_group.entities.student_group import StudentGroup
 
 
 class StudentGroupMapper:

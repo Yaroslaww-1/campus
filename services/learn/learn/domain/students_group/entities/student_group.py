@@ -1,7 +1,7 @@
 import uuid
 
 from learn.domain.groups.value_objects.group_id import GroupId
-from learn.domain.studentGroup.value_objects.studentGroup_id import StudentGroupId
+from learn.domain.students_group.value_objects.student_group_id import StudentGroupId
 from learn.domain.users.value_objects.user_id import UserId
 
 
@@ -16,5 +16,5 @@ class StudentGroup:
         id = StudentGroupId(value=uuid.uuid4())
         user_id = UserId(value=user_id)
         group_id = GroupId(value=group_id)
-        studentGroup = StudentGroup(id, user_id, group_id)
-        return studentGroup
+        student_group = StudentGroup(id, user_id, group_id)
+        return student_group

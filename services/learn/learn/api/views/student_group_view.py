@@ -4,15 +4,15 @@ from rest_framework.decorators import api_view, permission_classes
 
 from learn.api.constants import COMMON_ROUTE_URL
 from learn.api.serializers.dto_serializer import DtoSerializer
-from learn.application.studentGroup.create_student_group.create_student_group_command import \
+from learn.application.studentsGroup.create_student_group.create_student_group_command import \
     CreateStudentGroupCommandDto, CreateStudentGroupCommand
-from learn.application.studentGroup.get_student_group.get_student_group_by_group_id import \
-    GetStudentGroupsByGroupIdQuery
+from learn.application.studentsGroup.get_student_group.get_students_group_by_group_id import \
+    GetStudentsGroupByGroupIdQuery
 
 
 @api_view(["GET"])
 def get_students_group_by_group_id(request, id):
-    students_group = GetStudentGroupsByGroupIdQuery().execute(id)
+    students_group = GetStudentsGroupByGroupIdQuery().execute(id)
     return JsonResponse(DtoSerializer.to_dict(students_group, many=True), safe=False)
 
 

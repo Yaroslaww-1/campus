@@ -2,12 +2,12 @@ from typing import List
 
 import inject
 
-from learn.application.studentGroup.dtos.student_group_dto import StudentGroupDto
-from learn.application.studentGroup.student_group_mapper import StudentGroupMapper
-from learn.infrastructure.repositories.studentGroup_repository import StudentGroupRepository
+from learn.application.studentsGroup.dtos.student_group_dto import StudentGroupDto
+from learn.application.studentsGroup.student_group_mapper import StudentGroupMapper
+from learn.infrastructure.repositories.student_group_repository import StudentGroupRepository
 
 
-class GetStudentGroupsByGroupIdQuery:
+class GetStudentsGroupByGroupIdQuery:
     @inject.autoparams()
     def __init__(self, student_group_repository: StudentGroupRepository):
         self.student_group_repository = student_group_repository
