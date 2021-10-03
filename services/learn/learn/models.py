@@ -29,3 +29,25 @@ class Post(models.Model):
     class Meta:
         db_table = "post"
     objects = models.Manager()
+
+
+class Group(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    name = models.CharField(max_length=100)
+    formed_at_year = models.IntegerField()
+
+    class Meta:
+        db_table = "group"
+
+    objects = models.Manager()
+
+
+class StudentGroup(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "student_group"
+
+    objects = models.Manager()
