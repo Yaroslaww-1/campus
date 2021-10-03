@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(dotenv_path=os.path.join(BASEDIR, '..', '..', '..', '.env', 'learn_api.env'), verbose=True)
+load_dotenv(dotenv_path=os.path.join(BASEDIR, '..', '..', '..', '.env', 'learn.env'), verbose=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -26,9 +26,6 @@ SECRET_KEY = 'django-insecure-7w1^54-vsngif7^!x4y^qvdxl0n600u=a3_-7p6_-_ezq4kgmf
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -61,9 +58,15 @@ MIDDLEWARE = [
 ]
 
 FRONTEND_URL = os.getenv('FRONTEND_URL')
-CORS_ALLOWED_ORIGINS = [
-    FRONTEND_URL
-]
+
+ALLOWED_HOSTS = [FRONTEND_URL]
+
+if FRONTEND_URL == '*':
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        FRONTEND_URL
+    ]
 
 ROOT_URLCONF = 'learn.api.urls'
 
