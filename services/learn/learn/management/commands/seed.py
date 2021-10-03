@@ -5,9 +5,10 @@ from django.core.management.base import BaseCommand
 import random
 import logging
 
-from learn.models import Post, User
+from learn.models import Post, User, Group, StudentGroup
 
 logger = logging.getLogger(__name__)
+
 
 # python manage.py seed
 
@@ -27,6 +28,12 @@ def clear_data():
 
     logger.info("Delete Users")
     User.objects.all().delete()
+
+    logger.info("Delete Groups")
+    Group.objects.all().delete()
+
+    logger.info("Delete StudentsGroup")
+    StudentGroup.objects.all().delete()
 
 
 def create_users():
@@ -93,7 +100,68 @@ def create_posts():
     logger.info("Posts created")
 
 
+def create_groups():
+    logger.info("Creating groups")
+    group = Group(
+        id=uuid.uuid4(),
+        name="IP-96",
+        formed_at_year=2019
+    )
+    group.save()
+
+    group = Group(
+        id=uuid.uuid4(),
+        name="IP-92",
+        formed_at_year=2019
+    )
+    group.save()
+
+    group = Group(
+        id=uuid.uuid4(),
+        name="IP-91",
+        formed_at_year=2019
+    )
+    group.save()
+
+    logger.info("Groups created")
+
+
+def create_students_group():
+    logger.info("Creating students_group")
+
+    user = User.objects.get(name="Michael Jackson")
+    group = Group.objects.get(name="IP-96")
+    student_group = StudentGroup(
+        id=uuid.uuid4(),
+        user=user,
+        group=group
+    )
+    student_group.save()
+
+    user = User.objects.get(name="John Lennon")
+    group = Group.objects.get(name="IP-91")
+    student_group = StudentGroup(
+        id=uuid.uuid4(),
+        user=user,
+        group=group
+    )
+    student_group.save()
+
+    user = User.objects.get(name="Paul McCartney")
+    group = Group.objects.get(name="IP-92")
+    student_group = StudentGroup(
+        id=uuid.uuid4(),
+        user=user,
+        group=group
+    )
+    student_group.save()
+
+    logger.info("Students_group created")
+
+
 def run_seed(self):
     clear_data()
     create_users()
+    create_groups()
+    create_students_group()
     create_posts()
