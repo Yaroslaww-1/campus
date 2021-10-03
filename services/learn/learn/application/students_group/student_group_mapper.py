@@ -1,6 +1,6 @@
 from typing import List
 
-from learn.application.studentsGroup.dtos.student_group_dto import StudentGroupDto
+from learn.application.students_group.dtos.student_group_dto import StudentGroupDto
 from learn.domain.students_group.entities.student_group import StudentGroup
 
 

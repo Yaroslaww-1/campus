@@ -2,8 +2,8 @@ from typing import List
 
 import inject
 
-from learn.application.studentsGroup.dtos.student_group_dto import StudentGroupDto
-from learn.application.studentsGroup.student_group_mapper import StudentGroupMapper
+from learn.application.students_group.dtos.student_group_dto import StudentGroupDto
+from learn.application.students_group.student_group_mapper import StudentGroupMapper
 from learn.infrastructure.repositories.student_group_repository import StudentGroupRepository
 
 

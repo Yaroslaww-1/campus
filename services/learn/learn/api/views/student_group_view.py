@@ -4,9 +4,9 @@ from rest_framework.decorators import api_view, permission_classes
 
 from learn.api.constants import COMMON_ROUTE_URL
 from learn.api.serializers.dto_serializer import DtoSerializer
-from learn.application.studentsGroup.create_student_group.create_student_group_command import \
+from learn.application.students_group.create_student_group.create_student_group_command import \
     CreateStudentGroupCommandDto, CreateStudentGroupCommand
-from learn.application.studentsGroup.get_student_group.get_students_group_by_group_id import \
+from learn.application.students_group.get_student_group.get_students_group_by_group_id import \
     GetStudentsGroupByGroupIdQuery
 
 
