@@ -17,14 +17,14 @@ class LearnConfig(AppConfig):
         from learn.infrastructure.events.event_bus import EventBus
         from learn.infrastructure.repositories.group_repository import GroupRepository
         from learn.infrastructure.repositories.post_repository import PostRepository
-        from learn.infrastructure.repositories.student_group_repository import StudentGroupRepository
+        from learn.infrastructure.repositories.student_repository import StudentRepository
         from learn.infrastructure.repositories.user_repository import UserRepository
 
         # Infrastructure
         binder.bind_to_constructor(EventBus, EventBus)
         binder.bind_to_constructor(PostRepository, PostRepository)
         binder.bind_to_constructor(UserRepository, UserRepository)
-        binder.bind_to_constructor(StudentGroupRepository, StudentGroupRepository)
+        binder.bind_to_constructor(StudentRepository, StudentRepository)
         binder.bind_to_constructor(GroupRepository, GroupRepository)
         # Application
         binder.bind_to_constructor(Handler[PostCreatedDomainEvent], PostCreatedDomainEventHandler)
