@@ -7,7 +7,7 @@ services:
     ports:
       - 7433:5432
     env_file:
-      - ../.env/learn_db.env
+      - ../.env/learn.env
     volumes:
       - campus-learn-db-data:/var/lib/postgresql/data
 
