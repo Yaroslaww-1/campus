@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(dotenv_path=os.path.join(BASEDIR, '..', '..', '..', '.env', 'learn_api.env'), verbose=True)
+load_dotenv(dotenv_path=os.path.join(BASEDIR, '..', '..', '..', '.env', 'learn.env'), verbose=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/

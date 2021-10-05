@@ -67,33 +67,33 @@ def create_posts():
     logger.info("Creating posts")
     users_count = User.objects.count()
 
-    user = User.objects.all()[random.randint(0, users_count - 1)]
+    created_by = User.objects.all()[random.randint(0, users_count - 1)]
     post = Post(
         id=uuid.uuid4(),
         name="1st lab",
         content="First lab will be available at the end of today",
         created_at=timezone.now(),
-        user=user
+        created_by=created_by
     )
     post.save()
 
-    user = User.objects.all()[random.randint(0, users_count - 1)]
+    created_by = User.objects.all()[random.randint(0, users_count - 1)]
     post = Post(
         id=uuid.uuid4(),
         name="Pair link",
         content="Pair link is here",
         created_at=timezone.now(),
-        user=user
+        created_by=created_by
     )
     post.save()
 
-    user = User.objects.all()[random.randint(0, users_count - 1)]
+    created_by = User.objects.all()[random.randint(0, users_count - 1)]
     post = Post(
         id=uuid.uuid4(),
         name="Dopka(",
         content="Vseh na dopku =(",
         created_at=timezone.now(),
-        user=user
+        created_by=created_by
     )
     post.save()
 

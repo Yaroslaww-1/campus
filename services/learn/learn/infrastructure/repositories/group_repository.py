@@ -30,3 +30,7 @@ class GroupRepository:
             name=group.name,
             formed_at_year=group.formed_at_year.value
         )
+
+    # TODO: implement. Left as an example
+    def add_student(self) -> None:
+        raise NotImplementedError()
