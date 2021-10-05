@@ -7,17 +7,20 @@ from learn.models import User as UserModel
 
 
 class UserRepository:
-    def __init__(self):
-        pass
+    @staticmethod
+    def model_to_entity(model: UserModel) -> User:
+        return User(
+            id=UserId(model.id),
+            name=model.name,
+            email=Email(model.email),
+        )
 
     @staticmethod
-    def model_to_entity(user_model: UserModel) -> User:
-        id = UserId(user_model.id)
-        email = Email(user_model.email)
-        return User(
-            id=id,
-            name=user_model.name,
-            email=email
+    def entity_to_model(entity: User) -> User:
+        return UserModel(
+            id=entity.id.value,
+            name=entity.name,
+            email=entity.email.value
         )
 
     def get_users(self) -> List[User]:
@@ -25,8 +28,4 @@ class UserRepository:
         return list(map(self.model_to_entity, users))
 
     def save_user(self, user: User) -> None:
-        UserModel.objects.update_or_create(
-            id=user.id.value,
-            name=user.name,
-            email=user.email.value
-        )
+        UserModel.objects.update_or_create(self.entity_to_model(user))
