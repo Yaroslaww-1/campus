@@ -1,16 +1,23 @@
-import { Provider } from "mobx-react";
+import { observer } from "mobx-react";
+import { useEffect } from "react";
 
-import { AllTable } from "./comp/AllTable";
+import { eventsState, EventsState } from "./schedule.state";
 
-import scheduleStore from "./stores/scheduleStore";
+import { ScheduleTables } from "./components/ScheduleTables";
 
-const stores = {
-  scheduleStore,
-};
+interface IProps {
+  state: EventsState;
+}
+
+const EventListContent: React.FC<IProps> = observer(({ state }) => {
+  useEffect(()=> {
+    state.fetchEvents();
+  }, []);
+  return(
+    <ScheduleTables events={state.events} />
+  );
+});
+
 export const SchedulePage: React.FC = () => (
-  <Provider {...stores}>
-    <AllTable />
-  </Provider>
+  <EventListContent state={eventsState} />
 );
-
-export default  SchedulePage;
