@@ -5,13 +5,3 @@ export type Event = {
   time: string;
   type: string;
 };
-
-export type DayInWeek = {
-  id: number;
-  name: string;
-};
-
-export type PairTime = {
-  id: number;
-  time: string;
-};

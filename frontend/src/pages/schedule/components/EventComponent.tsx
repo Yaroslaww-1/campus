@@ -1,39 +1,39 @@
 import React from "react";
+
 import { Event } from "@models/event.model";
 
 import styles from "./styles.module.scss";
 
 interface IEvent {
-  key: number;
+  key: string;
   dayId: number;
-  event: Event[];
+  event: Event;
   time: string;
 }
 
 export const EventComponent: React.FC<IEvent> = ({ dayId, event, time }) => {
-  const one_events = (event.filter(el => el.time.substr(12, 5) == time ))
-    .filter(el => new Date(el.time.substr(0, 10)).getDay() == dayId);
-
-  let one_event:Event;
-  if (one_events.length > 0){
-    one_event = one_events[0];
+  let oneEvent:Event;
+  if (event){
+    oneEvent = event;
+    console.log("");
   }
   else{
-    one_event = { id: "",
+    oneEvent = { id: "",
       name: "",
-      description: "Empty",
+      description: "",
       time: "",
       type: "" };
   }
+  //console.log(event);
   return (
-    <div className={styles.tmpP}>
-      <h3 className={styles.sbjName}>{one_event.name}</h3>
-      <div className={styles.teacherName}>
+    <div className={styles.eventComponentCell}>
+      <h3 className={styles.sbjName}>{oneEvent.name || "..."}</h3>
+      <div className={styles.teacherName}>...
         <p className={styles.teacherFullName}>Teacher name</p>
       </div>
-      <p className={styles.typeOfPair}>{one_event.type}</p>
-      <div className={styles.description}>Опис
-        <p className={styles.pairDesk}>{one_event.description}</p>
+      <p className={styles.typeOfPair}>{oneEvent.type || "..."}</p>
+      <div className={styles.description}>Description
+        <p className={styles.pairDesk}>{oneEvent.description || "..."}</p>
       </div>
     </div>
   );

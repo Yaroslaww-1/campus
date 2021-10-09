@@ -13,9 +13,9 @@ interface IProps {
 export const ScheduleTables: React.FC<IProps> = ({ events }) => { 
   return (
     <div className={styles.allTables}>
-      <h1>Перший тиждень</h1>
+      <h1>First week</h1>
       <WeekScheduleTableComponent weekEvents={events}/>
-      <h1>Другий тиждень</h1>
+      <h1>Second week</h1>
       <WeekScheduleTableComponent weekEvents={events}/>
     </div>
   );
