@@ -47,7 +47,7 @@ from learn.domain.posts.post_service import post_service
 2. Start **docker-compose** file using command \
 `docker-compose -f .docker/docker-compose.services.yml up`
 3. Run migrations using command \
-`python manage.py makemigrations learn`
+`python manage.py migrate`
 4. Restore required packages from **requirements.txt**
 5. `python manage.py runserver`
 
