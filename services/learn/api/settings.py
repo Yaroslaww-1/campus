@@ -27,9 +27,6 @@ SECRET_KEY = 'django-insecure-7w1^54-vsngif7^!x4y^qvdxl0n600u=a3_-7p6_-_ezq4kgmf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,10 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'learn'
+    'learn',
+    'django.contrib.staticfiles',
 ]
 
 REST_FRAMEWORK = {
@@ -61,9 +58,15 @@ MIDDLEWARE = [
 ]
 
 FRONTEND_URL = os.getenv('FRONTEND_URL')
-CORS_ALLOWED_ORIGINS = [
-    FRONTEND_URL
-]
+
+ALLOWED_HOSTS = [FRONTEND_URL]
+
+if FRONTEND_URL == '*':
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        FRONTEND_URL
+    ]
 
 ROOT_URLCONF = 'learn.api.urls'
 
