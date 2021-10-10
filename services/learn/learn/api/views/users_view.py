@@ -20,5 +20,5 @@ def process_users(request):
 
 
 users_urlpatterns = [
-    path(f'{COMMON_ROUTE_URL}/users', process_users),
+    path(f'{COMMON_ROUTE_URL}users', process_users),
 ]
