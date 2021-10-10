@@ -42,7 +42,7 @@ class Group(models.Model):
 class StudentGroup(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    group = models.OneToOneField(Group, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "student_group"
