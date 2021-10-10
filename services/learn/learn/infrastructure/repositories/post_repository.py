@@ -1,26 +1,52 @@
 from typing import List
 
+import inject
+from django.forms import model_to_dict
+
 from learn.domain.posts.entities.post import Post
 from learn.domain.posts.value_objects.post_id import PostId
+from learn.infrastructure.events.event_bus import EventBus
+from learn.infrastructure.repositories.user_repository import UserRepository
 from learn.models import Post as PostModel
 
 
 class PostRepository:
-    def __init__(self):
-        pass
+    @inject.autoparams()
+    def __init__(self, event_bus: EventBus):
+        self.event_bus = event_bus
 
     @staticmethod
-    def model_to_entity(post_model: PostModel) -> Post:
-        post_id = PostId(post_model.id)
-        post_name = post_model.name
-        return Post(post_id, post_name)
+    def model_to_entity(model: PostModel) -> Post:
+        return Post(
+            id=PostId(model.id),
+            name=model.name,
+            content=model.content,
+            created_at=model.created_at,
+            created_by=UserRepository.model_to_entity(model.created_by)
+        )
+
+    @staticmethod
+    def entity_to_model(entity: PostModel) -> PostModel:
+        return PostModel(
+            id=entity.id.value,
+            name=entity.name,
+            content=entity.content,
+            created_at=entity.created_at,
+            created_by=UserRepository.entity_to_model(entity.created_by)
+        )
 
     def get_posts(self) -> List[Post]:
         posts = PostModel.objects.all()
         return list(map(self.model_to_entity, posts))
 
     def save_post(self, post: Post) -> None:
-        post = PostModel.objects.update_or_create(
-            id=post.id.value,
-            name=post.name
+        self.event_bus.process_domain_events(post.domain_events)
+        post.clear_domain_events()
+        post_to_save = self.entity_to_model(post)
+        PostModel.objects.update_or_create(
+            id=post_to_save.id,
+            name=post_to_save.name,
+            content=post_to_save.content,
+            created_at=post_to_save.created_at,
+            created_by=post_to_save.created_by
         )

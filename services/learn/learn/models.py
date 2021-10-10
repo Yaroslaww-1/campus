@@ -20,14 +20,11 @@ class Post(models.Model):
     name = models.CharField(max_length=100)
     content = models.TextField(null=False)
     created_at = models.DateTimeField(null=False)
-
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-    )
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "post"
+
     objects = models.Manager()
 
 
@@ -44,8 +41,8 @@ class Group(models.Model):
 
 class StudentGroup(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4())
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    group = models.OneToOneField(Group, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "student_group"

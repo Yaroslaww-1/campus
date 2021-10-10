@@ -8,7 +8,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('learn', '0002_user'),
+        ('learn', '0003_add_content_and_user_reference_to_post'),
     ]
 
     operations = [
