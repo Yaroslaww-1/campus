@@ -1,21 +1,26 @@
 version: '3.4'
 
 services:
-  campus-learn-db:
+  campus_learn_db:
     image: postgres:13.4
     container_name: campus_learn_db
+    restart: always
     ports:
       - 7433:5432
+    networks:
+      - campus-learn-network
     env_file:
-      - ../.env/learn.env
+      - ./.env/learn.env
     volumes:
       - campus-learn-db-data:/var/lib/postgresql/data
 
-  campus-schedule-db:
+  campus_schedule_db:
     image: postgres:13.4
     container_name: campus_schedule_db
     ports:
       - 7434:5432
+    networks:
+      - campus-schedule-network
     env_file:
       - ../.env/schedule.env
     volumes:
@@ -26,3 +31,9 @@ volumes:
     driver: local
   campus-schedule-db-data:
     driver: local
+
+networks:
+  campus-learn-network:
+    driver: bridge
+  campus-schedule-network:
+    driver: bridge
