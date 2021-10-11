@@ -10,7 +10,7 @@ export const UserPreview: React.FC<User> = props => {
     <div
       className={styles.userItem}
       onClick={() => {
-        window.location.href = `/users/${props.id}` || "/users";
+        window.location.href = `/user/${props.id}` || "/users";
       }}
     >
       <div className={styles.imgUser}>
