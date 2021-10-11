@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import { AppRoute } from "@common/enums/app-route.enum";
 
 import { Header } from "@components/header";
-import { HomePage, PostsPage, UsersPage } from "./pages";
+import { HomePage, PostsPage, UsersPage, UserProfilePage } from "./pages";
 
 export const App = () => {
   return (
@@ -13,6 +13,7 @@ export const App = () => {
         <Route exact path={AppRoute.HOME} component={HomePage} />
         <Route path={AppRoute.POSTS} component={PostsPage} />
         <Route path={AppRoute.USERS} component={UsersPage} />
+        <Route path={AppRoute.USER} component={UserProfilePage} />
       </Switch>
     </>
   );
