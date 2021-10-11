@@ -57,16 +57,14 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-FRONTEND_URL = os.getenv('FRONTEND_URL')
+ALLOWED_HOSTS_STRING = os.getenv('ALLOWED_HOSTS')
 
-ALLOWED_HOSTS = [FRONTEND_URL]
+ALLOWED_HOSTS = ALLOWED_HOSTS_STRING.split(',')
 
-if FRONTEND_URL == '*':
+if ALLOWED_HOSTS.count('*') > 0:
     CORS_ALLOW_ALL_ORIGINS = True
 else:
-    CORS_ALLOWED_ORIGINS = [
-        FRONTEND_URL
-    ]
+    CORS_ALLOWED_ORIGINS = ALLOWED_HOSTS
 
 ROOT_URLCONF = 'learn.api.urls'
 

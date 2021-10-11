@@ -20,5 +20,5 @@ def process_posts(request):
 
 
 posts_urlpatterns = [
-    path(f'{COMMON_ROUTE_URL}/posts', process_posts),
+    path(f'{COMMON_ROUTE_URL}posts', process_posts),
 ]

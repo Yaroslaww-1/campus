@@ -1,1 +1,1 @@
-COMMON_ROUTE_URL = 'api/v1'
+COMMON_ROUTE_URL = ''
