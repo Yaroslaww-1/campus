@@ -17,17 +17,20 @@ const UsersListContainerContent: React.FC<IProps> = observer(({ state }) => {
   }, []);
 
   return (
-    <div className={styles.userList}>
-      {state.users.map(user => {
-        return (
-          <UserPreview
-            key={user.id}
-            name={user.name}
-            role={user.role}
-            status={user.status}
-          />
-        );
-      })}
+    <div className={styles.userListWrapper}>
+      <div className={styles.userList}>
+        {state.users.map((user, index) => {
+          return (
+            <UserPreview
+              key={index}
+              id={user.id}
+              name={user.name}
+              role={user.role}
+              status={user.status}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 });
