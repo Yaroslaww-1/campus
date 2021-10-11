@@ -1,8 +1,14 @@
+.userList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .userItem {
   width: 250px;
   padding: 10px;
-  border: 1px solid grey;
-  border-top: none; // only for test view
+  border-bottom: 1px solid grey;
 }
 
 .nameRoleWrapper {
