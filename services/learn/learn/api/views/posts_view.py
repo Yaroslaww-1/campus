@@ -10,6 +10,7 @@ from learn.application.posts.get_posts.get_posts_query import GetPostsQuery
 
 @api_view(['GET', 'POST'])
 def process_posts(request):
+    print("GET REQUEST")
     if request.method == "GET":
         posts = GetPostsQuery().execute()
         return JsonResponse(DtoSerializer.to_dict(posts, many=True), safe=False)

@@ -1,0 +1,17 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{path}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "{Learn}"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/learn/{path}"
+    }
+  ],
+  "GlobalConfiguration": {
+      "BaseUrl": "http://localhost:8000"
+  }
+}
