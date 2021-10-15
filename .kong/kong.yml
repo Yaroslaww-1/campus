@@ -1,0 +1,9 @@
+_format_version: "2.1"
+
+services:
+  - name: learn-api-service
+    url: http://campus-learn-api:8000
+    routes:
+      - name: learn-api-route
+        paths:
+          - /api/learn
