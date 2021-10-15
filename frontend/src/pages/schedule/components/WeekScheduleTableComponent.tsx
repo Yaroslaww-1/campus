@@ -1,4 +1,5 @@
 import React from "react";
+import { DateTime } from "luxon";
 
 import { Event } from "@models/event.model";
 
@@ -14,17 +15,23 @@ interface IProps {
 }
 
 export const WeekScheduleTableComponent: React.FC<IProps> = ({ weekEvents }) => {
-  const { DateTime } = require("luxon");
   return (
     <div className={styles.OneTable}>
       <ScheduleTimesColumn/>
       {Object.values(WeekDays).filter(el => typeof(el) == "number").map(item =>(
-        <OnePairIntervalComponent key={item} day={WeekDays[parseInt(item.toString())]} 
-          dayId = {parseInt(item.toString())} 
-          data={weekEvents.filter(el => DateTime.fromISO(el.time).weekday == parseInt(item.toString()))}
+        <OnePairIntervalComponent key={item} day={WeekDays[getNumberFromWeekDaysString(item)]} 
+          weekDayNumber = {getNumberFromWeekDaysString(item)} 
+          data={weekEvents.filter(el => checkWeekDay(el, item))}
         />
       ))
       }
     </div>
   );
 };
+
+function checkWeekDay(el:Event, item:string | WeekDays){
+  return DateTime.fromISO(el.time).weekday == getNumberFromWeekDaysString(item);
+}
+function getNumberFromWeekDaysString(item: string | WeekDays){
+  return parseInt(item.toString());
+}

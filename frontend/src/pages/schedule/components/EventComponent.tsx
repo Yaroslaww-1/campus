@@ -6,12 +6,12 @@ import styles from "./styles.module.scss";
 
 interface IEvent {
   key: string;
-  dayId: number;
+  weekDayNumber: number;
   event: Event;
   time: string;
 }
 
-export const EventComponent: React.FC<IEvent> = ({ dayId, event, time }) => {
+export const EventComponent: React.FC<IEvent> = ({ weekDayNumber, event, time }) => {
   let oneEvent:Event;
   if (event){
     oneEvent = event;
@@ -24,7 +24,6 @@ export const EventComponent: React.FC<IEvent> = ({ dayId, event, time }) => {
       time: "",
       type: "" };
   }
-  //console.log(event);
   return (
     <div className={styles.eventComponentCell}>
       <h3 className={styles.sbjName}>{oneEvent.name || "..."}</h3>

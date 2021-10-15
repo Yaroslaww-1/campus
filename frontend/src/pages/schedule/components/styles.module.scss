@@ -48,6 +48,7 @@
                 border-radius: 5px;
                 border: 1px solid black;
                 min-height: 1rem;
+                cursor: pointer;
             }
     
             .description, .teacherName{
@@ -56,6 +57,7 @@
                 .teacherFullName, .pairDesk{
                     display: none;
                 }
+                cursor: pointer;
             }
     
             .description:hover, .teacherName:hover{
@@ -83,5 +85,8 @@
     }
     .column:hover{
         background-color: rgba(95, 158, 160, 0.329);
+    }
+    p{
+        cursor: default;
     }
 }
