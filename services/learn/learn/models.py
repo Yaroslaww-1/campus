@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 
+
 # https://docs.djangoproject.com/en/3.2/ref/models/fields/
 
 
@@ -154,4 +155,5 @@ class CourseAssignmentSubmissionReview(models.Model):
     class Meta:
         db_table = "course_assignment_submission_review"
 
-    objects = models.Manager()
+
+objects = models.Manager()

@@ -26,6 +26,9 @@ def clear_data():
     logger.info("Delete Posts")
     Post.objects.all().delete()
 
+    logger.info("Delete Students")
+    Student.objects.all().delete()
+
     logger.info("Delete Users")
     User.objects.all().delete()
 
@@ -34,9 +37,6 @@ def clear_data():
 
     logger.info("Delete Groups")
     Group.objects.all().delete()
-
-    logger.info("Delete Students")
-    Student.objects.all().delete()
 
 
 def create_roles():
@@ -92,6 +92,13 @@ def create_users():
         name="John Lennon",
         email="john@gmail.com",
         role=role
+    )
+    user.save()
+
+    user = User(
+        id=00000000 - 0000 - 0000 - 0000 - 000000000000,
+        name="Nazarii Striletskyi",
+        email="cyberfrog@gmail.com"
     )
     user.save()
 
@@ -185,6 +192,15 @@ def create_students():
 
     user = User.objects.get(name="Paul McCartney")
     group = Group.objects.get(name="IP-92")
+    student = Student(
+        id=uuid.uuid4(),
+        user=user,
+        group=group
+    )
+    student.save()
+
+    user = User.objects.get(name="Nazarii Striletskyi")
+    group = Group.objects.get(name="IP-96")
     student = Student(
         id=uuid.uuid4(),
         user=user,

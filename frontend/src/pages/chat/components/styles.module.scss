@@ -1,14 +1,38 @@
+.userListWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 300px;
+}
+
 .userItem {
-  width: 250px;
+  width: 300px;
   padding: 10px;
-  border: 1px solid grey;
-  border-top: none; // only for test view
+  border-bottom: 1px solid grey;
+  display: flex;
+}
+
+.imgUser {
+  max-width: 50px;
+  margin-right: 10px;
+}
+
+.mainInfoWrapper {
 }
 
 .nameRoleWrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 250px;
 }
 
 .name {
