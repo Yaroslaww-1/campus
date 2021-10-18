@@ -10,10 +10,10 @@ import coursesLogo from "../../assets/courses.png";
 export const Header: React.FC = () => {
   return (
     <div className={styles.header}>
-      <div className={styles.mainBut}>
-        <Section name={"Home"} href={"/posts"} imgSrc={homeLogo}></Section>
-        <Section name={"Chats"} href={"/users"} imgSrc={chatLogo}></Section>
-        <Section name={"Courses"} href={"/courses"} imgSrc={coursesLogo}></Section>
+      <div className={styles.middleButtons}>
+        <Section name={"Home"} redirectToUrl={"/posts"} imgSrc={homeLogo}></Section>
+        <Section name={"Chats"} redirectToUrl={"/users"} imgSrc={chatLogo}></Section>
+        <Section name={"Courses"} redirectToUrl={"/courses"} imgSrc={coursesLogo}></Section>
       </div>
     </div>
   );
