@@ -1,4 +1,6 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+
 import styles from "./styles.module.scss";
 
 import { User } from "@models/user.model";
@@ -6,13 +8,15 @@ import { User } from "@models/user.model";
 import userImg from "../../../assets/user.png";
 
 export const UserPreview: React.FC<User> = props => {
+  const history = useHistory();
+
+  const routeChange = () => {
+    const path: string = `/user/${props.id}`;
+    history.push(path);
+  };
+
   return (
-    <div
-      className={styles.userItem}
-      onClick={() => {
-        window.location.href = `/user/${props.id}` || "/users";
-      }}
-    >
+    <div className={styles.userItem} onClick={routeChange}>
       <div className={styles.imgUser}>
         <img className={styles.imgUser} src={userImg} alt=""></img>
       </div>

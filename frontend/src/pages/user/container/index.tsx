@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 import { userProfileState, UserProfileState } from "../user-profile.state";
@@ -9,9 +10,15 @@ interface IProps {
   state: UserProfileState;
 }
 
+interface IUrlParams {
+  id: string;
+}
+
 const UserProfileContainerContent: React.FC<IProps> = observer(({ state }) => {
+  const { id } = useParams<IUrlParams>();
+
   useEffect(() => {
-    state.fetchUserProfile(`${window.location.pathname.replace("/user/", "")}`);
+    state.fetchUserProfile(id);
   }, []);
 
   return (
