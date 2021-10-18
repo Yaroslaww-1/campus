@@ -14,6 +14,19 @@ services:
     volumes:
       - campus-learn-db-data:/var/lib/postgresql/data
 
+  campus_users_db:
+    image: postgres:13.4
+    container_name: campus_users_db
+    restart: always
+    ports:
+      - 7434:5432
+    networks:
+      - campus-users-network
+    env_file:
+      - ../.env/users.env
+    volumes:
+      - campus-users-db-data:/var/lib/postgresql/data
+
   campus_gateway_api:
     container_name: campus_gateway_api
     build: 
@@ -29,7 +42,11 @@ services:
 volumes:
   campus-learn-db-data:
     driver: local
+  campus-users-db-data:
+    driver: local
 
 networks:
   campus-learn-network:
+    driver: bridge
+  campus-users-network:
     driver: bridge

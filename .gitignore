@@ -157,8 +157,9 @@ yarn-error.log*
 # Backend (custom)
 .idea
 
-.NET
+# .NET
 .vs
 bin
 debug
 obj
+launchSettings.json
