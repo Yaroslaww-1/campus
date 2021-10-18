@@ -27,6 +27,6 @@ def process_user_by_id(request, id):
 
 
 users_urlpatterns = [
-    path(f'{COMMON_ROUTE_URL}/users', process_users),
-    path(f'{COMMON_ROUTE_URL}/users/<str:id>/', process_user_by_id),
+    path(f'{COMMON_ROUTE_URL}users', process_users),
+    path(f'{COMMON_ROUTE_URL}users/<str:id>/', process_user_by_id),
 ]

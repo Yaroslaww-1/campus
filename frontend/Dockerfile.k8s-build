@@ -1,0 +1,12 @@
+#build
+FROM node:14.15-alpine as builder
+WORKDIR /app
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn
+COPY . ./
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL $REACT_APP_API_URL
+EXPOSE 3000
+# TODO: replace by production build serve
+ENTRYPOINT ["yarn", "start"]

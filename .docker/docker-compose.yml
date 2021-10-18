@@ -10,16 +10,40 @@ services:
     networks:
       - campus-learn-network
     env_file:
-      - ./.env/learn.env
+      - ../.env/learn.env
     volumes:
       - campus-learn-db-data:/var/lib/postgresql/data
+
+  campus_learn_api:
+    container_name: campus_learn_api
+    build: 
+      context: ../services/learn
+    restart: on-failure
+    command:
+      - /bin/bash
+      - -c
+      - |
+        python manage.py migrate learn
+        python manage.py runserver
+    depends_on:
+      - campus_learn_db
+    ports:
+      - 8000:8000
+    networks:
+      - campus-learn-network
+    env_file:
+      - ../.env/learn.env
+    environment:
+      - ALLOWED_HOST=*
+      - DB_HOST=campus_learn_db
+      - DB_PORT=5432
 
   campus_api_gateway:
     container_name: campus_api_gateway
     build: 
       context: ../.kong
     volumes:
-      - ../.kong/kong.services.yml:/usr/local/kong/declarative/kong.yml
+      - ../.kong/kong.yml:/usr/local/kong/declarative/kong.yml
     ports:
       - 9000:8000 # Listener
       - 9443:8443 # Admin API
@@ -27,6 +51,8 @@ services:
       - 127.0.0.1:9444:8444
     networks:
       - campus-learn-network
+    links:
+      - campus_learn_api:campus-learn-api
     environment:
       - KONG_DATABASE=off
       - KONG_DECLARATIVE_CONFIG=/usr/local/kong/declarative/kong.yml
@@ -46,6 +72,21 @@ services:
       - campus_api_gateway
     networks:
       - campus-learn-network
+
+  campus_frontend:
+    container_name: campus_frontend
+    build: 
+      context: ../frontend
+      args:
+        REACT_APP_API_URL: http://localhost:9000/api
+    restart: on-failure
+    depends_on:
+      - campus_learn_api
+    ports:
+      - 80:80
+    networks:
+      - campus-learn-network
+
 
 volumes:
   campus-learn-db-data:
