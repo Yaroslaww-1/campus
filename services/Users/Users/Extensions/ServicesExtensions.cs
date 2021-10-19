@@ -5,7 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Users.BuildingBlocks.Security;
 using Users.Infrastructure.EntityFramework;
 using Users.Infrastructure.EntityFramework.Repositories.Users;
 using Users.Options;
@@ -42,6 +45,8 @@ namespace Users.Extensions
 
 		public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
 		{
+			services.AddTransient<ISecurityService, SecurityService>();
+
 			services.AddTransient<UserService>();
 		}
 
@@ -54,8 +59,99 @@ namespace Users.Extensions
 			};
 		}
 
+		public static void ApplyDatabaseSeeding(this IApplicationBuilder app)
+		{
+			ApplyRolesSeeding(app);
+			ApplyUsersSeeding(app);
+		}
+
+		public static void ApplyRolesSeeding(this IApplicationBuilder app)
+		{
+			using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+			{
+				using var context = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
+
+				var existingRoles = context.Roles.ToList();
+
+				if (!existingRoles.Any())
+                {
+					context.Roles.Add(new Entities.Role()
+					{
+						Id = Guid.NewGuid(),
+						Name = "Student"
+					});
+
+					context.Roles.Add(new Entities.Role()
+					{
+						Id = Guid.NewGuid(),
+						Name = "Teacher"
+					});
+
+					context.Roles.Add(new Entities.Role()
+					{
+						Id = Guid.NewGuid(),
+						Name = "Admin"
+					});
+
+					context.SaveChanges();
+				}
+			};
+		}
+
+		public static void ApplyUsersSeeding(this IApplicationBuilder app)
+		{
+			using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+			{
+				using var context = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
+
+				var securityService = scope.ServiceProvider.GetRequiredService<ISecurityService>();
+
+				var existingUsers = context.Users.ToList();
+
+				var existingRoles = context.Roles.ToList();
+
+				if (!existingUsers.Any())
+				{
+					var salt = securityService.GetRandomSalt();
+					context.Users.Add(new Entities.User()
+					{
+						Id = Guid.NewGuid(),
+						Email = "student@gmail.com",
+						Name = "Student",
+						PasswordHash = securityService.HashPassword("studentPass", salt),
+						PasswordHashSalt = Convert.ToBase64String(salt),
+						Roles = existingRoles.Where(r => r.Name == "Student").ToList()
+					});
+
+					salt = securityService.GetRandomSalt();
+					context.Users.Add(new Entities.User()
+					{
+						Id = Guid.NewGuid(),
+						Email = "teacher@gmail.com",
+						Name = "Teacher",
+						PasswordHash = securityService.HashPassword("teacherPass", salt),
+						PasswordHashSalt = Convert.ToBase64String(salt),
+						Roles = existingRoles.Where(r => r.Name == "Teacher").ToList()
+					});
+
+					salt = securityService.GetRandomSalt();
+					context.Users.Add(new Entities.User()
+					{
+						Id = Guid.NewGuid(),
+						Email = "admin@gmail.com",
+						Name = "Admin",
+						PasswordHash = securityService.HashPassword("adminPass", salt),
+						PasswordHashSalt = Convert.ToBase64String(salt),
+						Roles = existingRoles.Where(r => r.Name == "Admin").ToList()
+					});
+
+					context.SaveChanges();
+				}
+			};
+		}
+
 		//public static IServiceCollection ConfigureIdentityServer(this IServiceCollection services)
-  //      {
+		//      {
 		//	services.AddIdentityServer()
 		//		.AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
 		//		.AddInMemoryApiResources(IdentityServerConfig.GetApis())
@@ -109,6 +205,6 @@ namespace Users.Extensions
 		//	IdentityModelEventSource.ShowPII = true;
 
 		//	return services;
-  //      }
-    }
+		//      }
+	}
 }

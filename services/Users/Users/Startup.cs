@@ -58,6 +58,8 @@ namespace Users
             });
 
             app.InitializeDatabase();
+
+            app.ApplyDatabaseSeeding();
         }
     }
 }
