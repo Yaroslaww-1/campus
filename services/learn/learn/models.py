@@ -48,3 +48,38 @@ class StudentGroup(models.Model):
         db_table = "student_group"
 
     objects = models.Manager()
+
+
+class Chat(models.Model):
+    chat_id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    name = models.CharField(max_length=100)
+    is_group_chat = models.NullBooleanField(blank=True)
+    created_by = models.UUIDField(default=uuid.uuid4())
+
+    class Meta:
+        db_table = "Chat"
+
+    objects = models.Manager()
+
+
+class UserChat(models.Model):
+    user_chat_id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat_id')
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE())
+
+    class Meta:
+        db_table = "UserChat"
+
+    objects = models.Manager()
+
+
+class Message(models.Model):
+    message_id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    created_by = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='created_by')
+    created_on = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='created_on')
+    content = models.TextField(null=False)
+
+    class Meta:
+        db_table = "Message"
+
+    objects = models.Manager()
