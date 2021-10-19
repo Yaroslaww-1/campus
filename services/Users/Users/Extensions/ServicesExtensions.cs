@@ -1,17 +1,25 @@
-﻿using IdentityServer4.Services;
+﻿using IdentityServer4.AccessTokenValidation;
+using IdentityServer4.Services;
 using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Users.BuildingBlocks.ExecutionContext;
 using Users.BuildingBlocks.Security;
 using Users.Infrastructure.EntityFramework;
 using Users.Infrastructure.EntityFramework.Repositories.Users;
+using Users.Infrastructure.IdentityServer;
 using Users.Options;
+using Users.Services.Auth;
 using Users.Services.Users;
 
 namespace Users.Extensions
@@ -48,6 +56,69 @@ namespace Users.Extensions
 			services.AddTransient<ISecurityService, SecurityService>();
 
 			services.AddTransient<UserService>();
+			services.AddTransient<IAuthenticationService, AuthenticationService>();
+		}
+
+		public static IServiceCollection RegisterIdentityServer(this IServiceCollection services, IConfiguration configuration)
+		{
+			services.AddIdentityServer()
+				.AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
+				.AddInMemoryApiResources(IdentityServerConfig.GetApis())
+				.AddInMemoryClients(IdentityServerConfig.GetClients())
+				.AddInMemoryPersistedGrants()
+				.AddProfileService<ProfileService>()
+				.AddDeveloperSigningCredential();
+
+			var urlsOptions = configuration.GetSection(UrlsOptions.Location).Get<UrlsOptions>();
+
+			services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
+
+			services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+				.AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
+				{
+					options.Authority = urlsOptions.GatewayApiUrl;
+					options.RequireHttpsMetadata = false;
+
+
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateAudience = false
+					};
+
+					options.Events = new JwtBearerEvents
+					{
+						OnMessageReceived = context =>
+						{
+							var accessToken = context.Request.Query["access_token"];
+
+							// If the request is for our hub...
+							var path = context.HttpContext.Request.Path;
+							if (!string.IsNullOrEmpty(accessToken) &&
+								(path.StartsWithSegments("/hubs")))
+							{
+								// Read the token out of the query string
+								context.Token = accessToken;
+							}
+							return Task.CompletedTask;
+						}
+					};
+				});
+
+			services.AddSingleton<ICorsPolicyService>((container) =>
+			{
+				var logger = container.GetRequiredService<Microsoft.Extensions.Logging.ILogger<DefaultCorsPolicyService>>();
+				return new DefaultCorsPolicyService(logger)
+				{
+					AllowedOrigins = { urlsOptions.GatewayApiUrl }
+				};
+			});
+
+			IdentityModelEventSource.ShowPII = true;
+
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddSingleton<IExecutionContextAccessor, ExecutionContextAccessor>();
+
+			return services;
 		}
 
 		public static void InitializeDatabase(this IApplicationBuilder app)
@@ -149,62 +220,5 @@ namespace Users.Extensions
 				}
 			};
 		}
-
-		//public static IServiceCollection ConfigureIdentityServer(this IServiceCollection services)
-		//      {
-		//	services.AddIdentityServer()
-		//		.AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
-		//		.AddInMemoryApiResources(IdentityServerConfig.GetApis())
-		//		.AddInMemoryClients(IdentityServerConfig.GetClients())
-		//		.AddInMemoryPersistedGrants()
-		//		.AddProfileService<ProfileService>()
-		//		.AddDeveloperSigningCredential();
-
-		//	services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
-
-		//	services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-		//		.AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
-		//		{
-		//			options.Authority = _resourcesUrls.GatewayApi;
-		//			options.RequireHttpsMetadata = false;
-
-
-		//			options.TokenValidationParameters = new TokenValidationParameters
-		//			{
-		//				ValidateAudience = false
-		//			};
-
-		//			options.Events = new JwtBearerEvents
-		//			{
-		//				OnMessageReceived = context =>
-		//				{
-		//					var accessToken = context.Request.Query["access_token"];
-
-		//				// If the request is for our hub...
-		//				var path = context.HttpContext.Request.Path;
-		//					if (!string.IsNullOrEmpty(accessToken) &&
-		//						(path.StartsWithSegments("/hubs")))
-		//					{
-		//					// Read the token out of the query string
-		//					context.Token = accessToken;
-		//					}
-		//					return Task.CompletedTask;
-		//				}
-		//			};
-		//		});
-
-		//	services.AddSingleton<ICorsPolicyService>((container) =>
-		//	{
-		//		var logger = container.GetRequiredService<Microsoft.Extensions.Logging.ILogger<DefaultCorsPolicyService>>();
-		//		return new DefaultCorsPolicyService(logger)
-		//		{
-		//			AllowedOrigins = { _resourcesUrls.FrontEnd, _resourcesUrls.GatewayApi }
-		//		};
-		//	});
-
-		//	IdentityModelEventSource.ShowPII = true;
-
-		//	return services;
-		//      }
-	}
+    }
 }

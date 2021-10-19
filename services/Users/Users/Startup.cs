@@ -37,6 +37,8 @@ namespace Users
 
             services.RegisterServices(Configuration);
 
+            services.RegisterIdentityServer(Configuration);
+
             services.AddControllers();
         }
 
@@ -48,8 +50,11 @@ namespace Users
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseIdentityServer();
+
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

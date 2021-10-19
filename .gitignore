@@ -163,3 +163,6 @@ bin
 debug
 obj
 launchSettings.json
+
+# IdentityServer
+tempkey.jwk

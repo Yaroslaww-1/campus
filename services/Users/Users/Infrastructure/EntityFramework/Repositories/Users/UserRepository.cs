@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Users.Entities;
@@ -21,6 +22,15 @@ namespace Users.Infrastructure.EntityFramework.Repositories.Users
                 .ToListAsync();
 
             return users;
+        }
+
+        public async Task<User> GetById(Guid id)
+        {
+            var user = await _dbContext.Users
+                .Include(u => u.Roles)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            return user;
         }
     }
 }
