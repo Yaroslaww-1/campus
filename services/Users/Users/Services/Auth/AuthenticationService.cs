@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -57,7 +59,7 @@ namespace Users.Services.Auth
             var claims = new List<Claim>();
             claims.Add(new Claim(CustomClaimTypes.Name, user.Name));
             claims.Add(new Claim(CustomClaimTypes.Email, user.Email));
-            //claims.Add(new Claim(CustomClaimTypes.Roles, user.Roles));
+            claims.Add(new Claim(CustomClaimTypes.Roles, JsonConvert.SerializeObject(user.Roles.Select(r => new RoleDto { Id = r.Id, Name = r.Name })), JsonClaimValueTypes.JsonArray));
 
             return new AuthenticationResultDto()
             {

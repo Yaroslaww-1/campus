@@ -2,12 +2,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
-using Ocelot.Administration;
 using Microsoft.Extensions.Hosting;
 using GatewayApi.Options;
 using System;
+using Microsoft.IdentityModel.Tokens;
+using IdentityServer4.AccessTokenValidation;
+using System.Security.Claims;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Http;
+using Ocelot.Authorization;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+using System.Linq;
 
 namespace GatewayApi
 {
@@ -28,7 +35,19 @@ namespace GatewayApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var authenticationProviderKey = "IdentityApiKey";
+
             services.AddOcelot(Configuration);
+            
+            services.AddAuthentication()
+                .AddIdentityServerAuthentication(authenticationProviderKey, options =>
+                {
+                    options.Authority = "http://localhost:8000/api/users";
+                    options.SupportedTokens = SupportedTokens.Jwt;
+                    options.ApiSecret = "secret";
+                    options.RequireHttpsMetadata = false;
+                });
+
             var servicesOptions = Configuration
                 .GetSection(ServicesOptions.Position)
                 .Get<ServicesOptions>();
@@ -42,12 +61,6 @@ namespace GatewayApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            //app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseOcelot().Wait();
         }

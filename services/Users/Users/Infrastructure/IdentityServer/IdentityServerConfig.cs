@@ -10,7 +10,7 @@ namespace Users.Infrastructure.IdentityServer
 		{
 			return new List<ApiResource>
 			{
-				new ApiResource("UsersAPI", "Users API")
+				new ApiResource("UsersAPI", "Users API", new List<string> { CustomClaimTypes.Email, CustomClaimTypes.Name, CustomClaimTypes.Roles })
 			};
 		}
 
@@ -24,6 +24,14 @@ namespace Users.Infrastructure.IdentityServer
 				{
 					CustomClaimTypes.Roles
 				}),
+				new IdentityResource(
+					name: CustomClaimTypes.Email,
+					userClaims: new[] { CustomClaimTypes.Email },
+					displayName: "email"),
+				new IdentityResource(
+					name: CustomClaimTypes.Name,
+					userClaims: new[] { CustomClaimTypes.Name },
+					displayName: "name"),
 			};
 		}
 
@@ -40,6 +48,7 @@ namespace Users.Infrastructure.IdentityServer
 					SlidingRefreshTokenLifetime = 3600,
 					RefreshTokenUsage = TokenUsage.OneTimeOnly,
 					RefreshTokenExpiration = TokenExpiration.Sliding,
+					AlwaysSendClientClaims = true,
 					ClientSecrets =
 					{
 						new Secret("secret".Sha256())

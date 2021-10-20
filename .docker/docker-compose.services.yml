@@ -38,6 +38,7 @@ services:
       - campus-learn-network
     environment:
       - Services__Hosts__Learn=http://host.docker.internal:8100
+      - Services__Hosts__Users=http://host.docker.internal:8200
 
 volumes:
   campus-learn-db-data:

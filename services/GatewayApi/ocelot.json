@@ -8,7 +8,26 @@
           "Host": "{Learn}"
         }
       ],
-      "UpstreamPathTemplate": "/api/learn/{path}"
+      "UpstreamPathTemplate": "/api/learn/{path}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "UserEmail": "Claims[email] > value > |",
+        "UserName": "Claims[name] > value > |",
+        "UserRoles": "Claims[roles] > value > |"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/{path}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "{Users}"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/users/{path}"
     }
   ],
   "GlobalConfiguration": {

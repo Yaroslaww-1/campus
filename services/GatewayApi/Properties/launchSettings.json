@@ -21,7 +21,6 @@
       "commandName": "Project",
       "launchUrl": "swagger",
       "environmentVariables": {
-        "Services__Hosts__Learn": "http://localhost:8100",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
