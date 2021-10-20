@@ -95,10 +95,12 @@ def create_users():
     )
     user.save()
 
+    role = Role.objects.all()[random.randint(0, roles_count - 1)]
     user = User(
         id=00000000 - 0000 - 0000 - 0000 - 000000000000,
         name="Nazarii Striletskyi",
-        email="cyberfrog@gmail.com"
+        email="cyberfrog@gmail.com",
+        role=role
     )
     user.save()
 
