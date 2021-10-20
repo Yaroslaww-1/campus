@@ -13,7 +13,7 @@ namespace Users.BuildingBlocks.ExecutionContext
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Guid UserId
+        public string Email
         {
             get
             {
@@ -22,11 +22,24 @@ namespace Users.BuildingBlocks.ExecutionContext
                     .HttpContext?
                     .User?
                     .Claims?
-                    .SingleOrDefault(x => x.Type.Contains("nameidentifier"))?
+                    .SingleOrDefault(x => x.Type.Contains("email"))?
                     .Value != null)
                 {
-                    return Guid.Parse(_httpContextAccessor.HttpContext.User.Claims.Single(
-                        x => x.Type.Contains("nameidentifier")).Value);
+                    return _httpContextAccessor.HttpContext.User.Claims.Single(
+                        x => x.Type.Contains("email")).Value;
+                }
+
+                if ((bool)(_httpContextAccessor
+                    .HttpContext?
+                    .Request?
+                    .Headers?
+                    .ContainsKey("email")))
+                {
+                    return _httpContextAccessor
+                        .HttpContext?
+                        .Request?
+                        .Headers?
+                        ["email"];
                 }
 
                 throw new ApplicationException("User context is not available");

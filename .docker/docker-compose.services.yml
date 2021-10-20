@@ -36,9 +36,27 @@ services:
       - 8000:8000
     networks:
       - campus-learn-network
+      - campus-users-network
+    links:
+      - campus_users_api:campus-users-api
     environment:
       - Services__Hosts__Learn=http://host.docker.internal:8100
-      - Services__Hosts__Users=http://host.docker.internal:8200
+      - Services__Hosts__Users=http://campus-users-api:8200
+
+  campus_users_api:
+    container_name: campus_users_api
+    build: 
+      context: ../services/Users
+    restart: on-failure
+    ports:
+      - 8200:8200
+    networks:
+      - campus-users-network
+    environment:
+      - UrlsOptions__GatewayApiUrl=http://localhost:8200
+      - ASPNETCORE_URLS=http://0.0.0.0:8200
+    env_file:
+      - ../.env/users.env
 
 volumes:
   campus-learn-db-data:

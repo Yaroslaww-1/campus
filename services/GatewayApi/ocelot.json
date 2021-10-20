@@ -20,6 +20,23 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/authenticatedUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "{Users}"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/users/authenticatedUser",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "email": "Claims[email] > value > |",
+      }
+    },
+    {
       "DownstreamPathTemplate": "/{path}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

@@ -78,9 +78,12 @@ namespace Users.Services.Auth
 
         public async Task<UserDto> GetAuthenticatedUser()
         {
-            var authenticatedUserId = _executionContextAccessor.UserId;
+            var authenticatedUserEmail = _executionContextAccessor.Email;
 
-            var user = await _userRepository.GetById(authenticatedUserId);
+            var user = await _dbContext.Users
+                .Include(u => u.Roles)
+                .Where(u => u.Email == authenticatedUserEmail)
+                .FirstOrDefaultAsync();
 
             return new UserDto()
             {

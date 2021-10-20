@@ -4,6 +4,6 @@ namespace Users.BuildingBlocks.ExecutionContext
 {
     public interface IExecutionContextAccessor
     {
-        Guid UserId { get; }
+        string Email { get; }
     }
 }
