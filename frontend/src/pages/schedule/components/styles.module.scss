@@ -1,0 +1,92 @@
+.allTables{
+    width: 100%;
+    position: relative;
+    
+    h1{
+        text-align: center;
+    }
+}
+
+.OneTable{
+    display: grid;
+    grid-template-columns: 1fr repeat(7, 3fr);
+    margin: 5px;
+    width: calc(100% - 10px);
+    position: relative;
+    height: max-content;
+
+    .column{
+        display: grid;
+        grid-template-rows: 1fr repeat(6, 3fr);
+        margin: 0;
+        padding: 0;
+        position: relative;
+    
+        .timeP{
+            word-wrap: break-word;
+            display: inline-block;
+            outline: 1px solid rgba(123, 179, 131, 0.5);
+        }
+        .frsInColumn{
+            word-wrap: break-word;
+            display: inline-block;
+            outline: 1px solid rgba(123, 179, 131, 0.5);
+            margin: 0;
+        }
+        .eventComponentCell{
+            outline: 1px solid rgba(123, 179, 131, 0.5);
+    
+            .curentDay{
+                background-color: rgba(102, 102, 160, 0.692);
+            }
+            .nextPair{
+                background-color: rgba(199, 193, 106, 0.692);
+            }
+    
+            .sbjName{
+                margin: 5px;
+                border-radius: 5px;
+                border: 1px solid black;
+                min-height: 1rem;
+                cursor: pointer;
+            }
+    
+            .description, .teacherName{
+                padding: 5px;
+                position: relative;
+                .teacherFullName, .pairDesk{
+                    display: none;
+                }
+                cursor: pointer;
+            }
+    
+            .description:hover, .teacherName:hover{
+                .teacherFullName, .pairDesk{
+                    position:absolute;
+                    top:0;
+                    left: 0;
+                    background-color: blanchedalmond;
+                    display:block;
+                    z-index: 100;
+                    width: max-content;
+                    max-width: 100%;
+                }
+            }
+        }
+    
+        h3, p{
+            margin: 0;
+            padding: 5px;
+            z-index: 10;
+        }
+    }
+    .firstColumn{
+        flex: 1;
+    }
+    .column:hover{
+        background-color: rgba(95, 158, 160, 0.329);
+    }
+    p{
+        cursor: default;
+    }
+}
