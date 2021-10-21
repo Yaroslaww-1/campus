@@ -73,7 +73,8 @@ def create_users():
         id=uuid.uuid4(),
         name="Michael Jackson",
         email="mj@gmail.com",
-        role=role
+        role=role,
+        avatar=None
     )
     user.save()
 
@@ -82,7 +83,8 @@ def create_users():
         id=uuid.uuid4(),
         name="Paul McCartney",
         email="paul@gmail.com",
-        role=role
+        role=role,
+        avatar=None
     )
     user.save()
 
@@ -91,7 +93,8 @@ def create_users():
         id=uuid.uuid4(),
         name="John Lennon",
         email="john@gmail.com",
-        role=role
+        role=role,
+        avatar=None
     )
     user.save()
 
@@ -100,7 +103,8 @@ def create_users():
         id=00000000 - 0000 - 0000 - 0000 - 000000000000,
         name="Nazarii Striletskyi",
         email="cyberfrog@gmail.com",
-        role=role
+        role=role,
+        avatar=None
     )
     user.save()
 
