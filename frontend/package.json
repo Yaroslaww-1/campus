@@ -27,6 +27,7 @@
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
+    "@types/luxon": "^2.0.5",
     "@types/qs": "^6.9.7",
     "@types/react-router-dom": "^5.1.9",
     "@types/uuid": "^8.3.1",

@@ -1,8 +1,8 @@
 export enum SchedulePairsTime{
-  first = "08:30", 
-  second = "10:25", 
-  third = "12:20", 
-  fourth = "14:15",
-  fifth = "16:10", 
-  sixth = "18:30"
+  First = "08:30", 
+  Second = "10:25", 
+  Third = "12:20", 
+  Fourth = "14:15",
+  Fifth = "16:10", 
+  Sixth = "18:30"
 }
