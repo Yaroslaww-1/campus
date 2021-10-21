@@ -154,6 +154,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-
 # Backend (custom)
 .idea
+
+# .NET
+.vs
+bin
+debug
+obj
+launchSettings.json
+
+# IdentityServer
+tempkey.jwk
