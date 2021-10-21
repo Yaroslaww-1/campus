@@ -2,5 +2,6 @@ export enum AppRoute {
   HOME = "/",
   POSTS = "/posts",
   SCHEDULE = "/schedule",
-  USERS = "/users"
+  USERS = "/users",
+  USER = "/user/:id"
 }
