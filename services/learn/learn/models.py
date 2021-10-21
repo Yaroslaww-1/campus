@@ -20,7 +20,7 @@ class User(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
-
+    avatar = models.CharField(max_length=200, null=True)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
 
     class Meta:
