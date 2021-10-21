@@ -33,3 +33,6 @@ class UserRepository:
 
     def save_user(self, user: User) -> None:
         UserModel.objects.update_or_create(self.entity_to_model(user))
+
+    def save_user_avatar(self, id, imageUrl: str) -> None:
+        UserModel.objects.filter(id=id).update(avatar=imageUrl)
