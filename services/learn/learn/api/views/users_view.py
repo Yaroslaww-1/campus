@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, QueryDict
 from django.urls import path
 from rest_framework.decorators import api_view, permission_classes
 
@@ -21,8 +21,11 @@ def process_users(request):
         user = CreateUserCommand().execute(dto)
         return JsonResponse(DtoSerializer.to_dict(user), safe=False)
     elif request.method == "PUT":
-        DtoSerializer.upload_replace_files(request.data, request.FILES)
-        dto = DtoSerializer.from_json(request.data.dict(), CreateUserAvatarCommandDto)
+        data = request.data
+        DtoSerializer.upload_replace_files(data, request.FILES)
+        if isinstance(request.data, QueryDict):
+            data = DtoSerializer.to_dict(request.data)
+        dto = DtoSerializer.from_json(data, CreateUserAvatarCommandDto)
         CreateUserAvatarCommand().execute(dto)
         return JsonResponse({"status": "success"}, status=200, safe=False)
 
