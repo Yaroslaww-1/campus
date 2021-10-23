@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 
 import api from "../../../api/api.helper";
+import { FileUploadField } from "./file-upload-field";
 
-import { User } from "@models/user.model";
-
-export const UpdateUserAvatar: React.FC<User> = props => {
+export const UpdateUserAvatar: React.FC = () => {
   const BASE_URL = process.env.REACT_APP_API_URL;
   const endpoint = "users";
 
   const [id, setId] = useState("");
-  const [avatar, setAvatar] = useState<File>();
+  let file: File;
 
   function onSubmit() {
     const formData = new FormData();
     formData.append("id", id);
-    formData.append("avatar", avatar || "");
+    formData.append("avatar", file || "");
     api.put(BASE_URL + endpoint, formData);
+  }
+
+  function handleFileUpload(newFile: File) {
+    file = newFile;
   }
 
   return (
@@ -30,11 +33,7 @@ export const UpdateUserAvatar: React.FC<User> = props => {
         />
         <br />
         <label>Filename: </label>
-        <input
-          type="file"
-          name="avatar"
-          onChange={e => setAvatar(e.target.files![0])}
-        />
+        <FileUploadField onUpload={handleFileUpload} name={"avatar"} />
         <br />
         <input type="submit" name="submit" value="Submit" />
       </form>
