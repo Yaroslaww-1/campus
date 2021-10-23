@@ -15,7 +15,7 @@ const checkAccessMiddleware = async (
     return;
   }
   if (isAuthRoute) {
-    next({ path: AppRoute.LOGIN });
+    next({ path: AppRoute.SIGNUP });
     return;
   }
 

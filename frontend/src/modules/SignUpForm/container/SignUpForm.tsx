@@ -1,6 +1,8 @@
 import React from "react";
 import { SignUp } from "../components/SignUpForm";
 
+//import api from "@api/api.helper";
+
 interface FormData {
   name?: string,
   surname?: string,
@@ -11,7 +13,10 @@ interface FormData {
 
 
 export const SignUpContainer = () => {
-  const handleSubmit = (values: FormData) => {
+  const handleSubmit = async (values: FormData) => {
+    //const endpoint = "singup";
+    //const token = await api.put<FormData>(endpoint, values);
+    //localStorage.setItem("accessToken", JSON.stringify(token));
     setTimeout(() => {
       alert(JSON.stringify(values, null, 2));
     }, 1000);
