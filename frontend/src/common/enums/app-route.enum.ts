@@ -3,5 +3,6 @@ export enum AppRoute {
   POSTS = "/posts",
   SCHEDULE = "/schedule",
   USERS = "/users",
-  USER = "/user/:id"
+  USER = "/user/:id",
+  LOGIN = "/login",
 }
