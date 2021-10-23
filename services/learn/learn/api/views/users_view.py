@@ -21,11 +21,7 @@ def process_users(request):
         user = CreateUserCommand().execute(dto)
         return JsonResponse(DtoSerializer.to_dict(user), safe=False)
     elif request.method == "PUT":
-        data = request.data
-        DtoSerializer.upload_replace_files(data, request.FILES)
-        if isinstance(request.data, QueryDict):
-            data = DtoSerializer.to_dict(request.data)
-        dto = DtoSerializer.from_json(data, CreateUserAvatarCommandDto)
+        dto = DtoSerializer.from_json(request.data.dict(), CreateUserAvatarCommandDto)
         CreateUserAvatarCommand().execute(dto)
         return JsonResponse({"status": "success"}, status=200, safe=False)
 
