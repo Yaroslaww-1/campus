@@ -3,8 +3,9 @@ import { observer } from "mobx-react-lite";
 
 import { usersState, UsersState } from "@pages/chat/users.state";
 
-import { PageComponent } from "@components/index";
 import { UserPreview } from "@pages/chat/components/user-preview.component";
+
+import styles from "../../components/styles.module.scss";
 
 interface IProps {
   state: UsersState;
@@ -16,18 +17,21 @@ const UsersListContainerContent: React.FC<IProps> = observer(({ state }) => {
   }, []);
 
   return (
-    <PageComponent>
-      {state.users.map(user => {
-        return (
-          <UserPreview
-            key={user.id}
-            name={user.name}
-            role={user.role}
-            status={user.status}
-          />
-        );
-      })}
-    </PageComponent>
+    <div className={styles.userListWrapper}>
+      <div className={styles.userList}>
+        {state.users.map((user, index) => {
+          return (
+            <UserPreview
+              key={index}
+              id={user.id}
+              name={user.name}
+              role={user.role}
+              status={user.status}
+            />
+          );
+        })}
+      </div>
+    </div>
   );
 });
 

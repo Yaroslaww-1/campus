@@ -2,15 +2,21 @@ import { Route, Switch } from "react-router-dom";
 
 import { AppRoute } from "@common/enums/app-route.enum";
 
-import { HomePage, PostsPage, UsersPage, Auth } from "./pages";
+import { Header } from "@components/header";
+import { HomePage, PostsPage, UsersPage, UserProfilePage, SchedulePage, Auth } from "./pages";
 
 export const App = () => {
   return (
-    <Switch>
-      <Route exact path={AppRoute.HOME} component={HomePage} />
-      <Route path={AppRoute.POSTS} component={PostsPage} />
-      <Route path={AppRoute.USERS} component={UsersPage} />
-      <Route path={[AppRoute.LOGIN, AppRoute.SIGNUP]} component={Auth}/>
-    </Switch>
+    <>
+      <Header></Header>
+      <Switch>
+        <Route exact path={AppRoute.HOME} component={HomePage} />
+        <Route path={AppRoute.POSTS} component={PostsPage} />
+        <Route path={AppRoute.USERS} component={UsersPage} />
+        <Route path={AppRoute.USER} component={UserProfilePage} />
+        <Route path={AppRoute.SCHEDULE} component={SchedulePage} />
+        <Route path={[AppRoute.LOGIN, AppRoute.SIGNUP]} component={Auth}/>
+      </Switch>
+    </>
   );
 };
