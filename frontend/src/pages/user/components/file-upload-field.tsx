@@ -2,7 +2,7 @@ import React from "react";
 
 interface IFileUpload {
   name: string;
-  onUpload: Function;
+  onUpload: (file: File) => void;
 }
 
 export const FileUploadField: React.FC<IFileUpload> = props => {
