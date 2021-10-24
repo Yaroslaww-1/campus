@@ -27,5 +27,9 @@ class UserRepository:
         users = UserModel.objects.all()
         return list(map(self.model_to_entity, users))
 
+    def get_user_by_id(self, id) -> User:
+        user = UserModel.objects.get(id=id)
+        return self.model_to_entity(user)
+
     def save_user(self, user: User) -> None:
         UserModel.objects.update_or_create(self.entity_to_model(user))

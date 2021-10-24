@@ -1,0 +1,60 @@
+version: '3.4'
+
+services:
+  campus_learn_db:
+    image: postgres:13.4
+    container_name: campus_learn_db
+    restart: always
+    ports:
+      - 7433:5432
+    networks:
+      - campus-learn-network
+    env_file:
+      - ./.env/learn.env
+    volumes:
+      - campus-learn-db-data:/var/lib/postgresql/data
+
+  campus_learn_api:
+    container_name: campus_learn_api
+    build: 
+      context: ../services/learn
+      dockerfile: Dockerfile.k8s-build
+    restart: on-failure
+    command:
+      - /bin/bash
+      - -c
+      - |
+        python manage.py migrate learn
+        python manage.py runserver
+    depends_on:
+      - campus_learn_db
+    ports:
+      - 8000:8000
+    networks:
+      - campus-learn-network
+    env_file:
+      - ./.env/learn.env
+
+  campus_frontend:
+    container_name: campus_frontend
+    build:
+      context: ../frontend/
+      dockerfile: Dockerfile.k8s-build
+      args:
+        REACT_APP_API_URL: '/api/learn/v1/'
+    restart: on-failure
+    depends_on:
+      - campus_learn_api
+    ports:
+      - 3000:3000
+    networks:
+      - campus-learn-network
+
+
+volumes:
+  campus-learn-db-data:
+    driver: local
+
+networks:
+  campus-learn-network:
+    driver: bridge

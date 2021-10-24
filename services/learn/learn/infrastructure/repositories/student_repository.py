@@ -3,7 +3,7 @@ from typing import List, Callable
 from learn.domain.students.entities.student import Student
 from learn.infrastructure.repositories.group_repository import GroupRepository
 from learn.infrastructure.repositories.user_repository import UserRepository
-from learn.models import User as UserModel, Group as GroupModel, StudentGroup as StudentGroupModel
+from learn.models import User as UserModel, Group as GroupModel, Student as StudentModel
 
 
 class StudentRepository:
@@ -16,6 +16,6 @@ class StudentRepository:
 
     def get_students(self) -> List[Student]:
         # TODO: filter by role
-        students_group = StudentGroupModel.objects.all()
-        map_lambda: Callable[[StudentGroupModel], Student] = lambda sd: self.model_to_entity(sd.user, sd.group)
-        return list(map(map_lambda, students_group))
+        students = StudentModel.objects.all()
+        map_lambda: Callable[[StudentModel], Student] = lambda sd: self.model_to_entity(s.user, s.group)
+        return list(map(map_lambda, students))

@@ -1,7 +1,7 @@
 import { Post } from "../../models/post.model";
 import api from "../api.helper";
 
-const endpoint = "posts";
+const endpoint = "learn/posts";
 
 export class PostsService {
   static async getPosts(): Promise<Post[]> {

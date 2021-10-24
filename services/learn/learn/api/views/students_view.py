@@ -14,5 +14,5 @@ def get_students(request):
 
 
 students_group_urlpatterns = [
-    path(f'{COMMON_ROUTE_URL}/students', get_students),
+    path(f'{COMMON_ROUTE_URL}students', get_students),
 ]

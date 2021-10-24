@@ -1,0 +1,32 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: learn-api-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: learn-api
+  template:
+    metadata:
+      labels:
+        app: learn-api
+    spec:
+      containers:
+        - image: docker_campus_learn_api:latest
+          imagePullPolicy: Never
+          name: learn-api
+          ports:
+            - containerPort: 8000
+          envFrom:
+          - secretRef:
+              name: learn-api-secrets
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "0.5"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"

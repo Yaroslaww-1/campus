@@ -20,5 +20,5 @@ def process_groups(request):
 
 
 groups_urlpatterns = [
-    path(f'{COMMON_ROUTE_URL}/groups', process_groups),
+    path(f'{COMMON_ROUTE_URL}groups', process_groups),
 ]
