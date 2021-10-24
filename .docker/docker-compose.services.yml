@@ -10,47 +10,63 @@ services:
     networks:
       - campus-learn-network
     env_file:
-      -  ../.env.example/learn.env
+      - ../.env/learn.env
+
     volumes:
       - campus-learn-db-data:/var/lib/postgresql/data
 
-  campus_api_gateway:
-    container_name: campus_api_gateway
-    build: 
-      context: ../.kong
+  campus_users_db:
+    image: postgres:13.4
+    container_name: campus_users_db
+    restart: always
+    ports:
+      - 7434:5432
+    networks:
+      - campus-users-network
+    env_file:
+      - ../.env/users.env
     volumes:
-      - ../.kong/kong.services.yml:/usr/local/kong/declarative/kong.yml
-    ports:
-      - 9000:8000 # Listener
-      - 9443:8443 # Admin API
-      - 127.0.0.1:9001:8001
-      - 127.0.0.1:9444:8444
-    networks:
-      - campus-learn-network
-    environment:
-      - KONG_DATABASE=off
-      - KONG_DECLARATIVE_CONFIG=/usr/local/kong/declarative/kong.yml
-      - KONG_PROXY_ACCESS_LOG=/dev/stdout
-      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
-      - KONG_PROXY_ERROR_LOG=/dev/stderr
-      - KONG_ADMIN_ERROR_LOG=/dev/stderr
-      - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
-      - KONG_PLUGINS=bundled
+      - campus-users-db-data:/var/lib/postgresql/data
 
-  campus_api_gateway_ui:
-    container_name: campus_api_gateway_ui
-    image: pocketdigi/kong-admin-ui:0.5.3
+  campus_gateway_api:
+    container_name: campus_gateway_api
+    build: 
+      context: ../services/GatewayApi
+    restart: on-failure
     ports:
-      - 9899:80
-    depends_on:
-      - campus_api_gateway
+      - 8000:8000
     networks:
       - campus-learn-network
+      - campus-users-network
+    links:
+      - campus_users_api:campus-users-api
+    environment:
+      - Services__Hosts__Learn=http://host.docker.internal:8100
+      - Services__Hosts__Users=http://campus-users-api:8200
+
+  campus_users_api:
+    container_name: campus_users_api
+    build: 
+      context: ../services/Users
+    restart: on-failure
+    ports:
+      - 8200:8200
+    networks:
+      - campus-users-network
+    environment:
+      - UrlsOptions__GatewayApiUrl=http://localhost:8200
+      - ASPNETCORE_URLS=http://0.0.0.0:8200
+    env_file:
+      - ../.env/users.env
 
 volumes:
   campus-learn-db-data:
     driver: local
+  campus-users-db-data:
+    driver: local
 
 networks:
   campus-learn-network:
+    driver: bridge
+  campus-users-network:
     driver: bridge

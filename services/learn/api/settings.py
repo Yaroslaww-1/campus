@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'learn',
     'django.contrib.staticfiles',
+    'storages',
 ]
 
 REST_FRAMEWORK = {
@@ -150,3 +151,18 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AWS_IAM_ACCESS_KEY_ID = os.getenv('AWS_IAM_ACCESS_KEY_ID')
+AWS_IAM_SECRET_ACCESS_KEY = os.getenv('AWS_IAM_SECRET_ACCESS_KEY')
+AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
+AWS_REGION_NAME = os.getenv('AWS_REGION_NAME')
+
+AWS_ACCESS_KEY_ID = AWS_IAM_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = AWS_IAM_SECRET_ACCESS_KEY
+AWS_STORAGE_BUCKET_NAME = AWS_BUCKET_NAME
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_REGION_NAME = AWS_REGION_NAME
+AWS_S3_FILE_OVERWRITE = True
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
