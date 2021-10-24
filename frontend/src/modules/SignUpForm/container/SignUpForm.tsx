@@ -1,7 +1,6 @@
-import React from "react";
 import { SignUp } from "../components/SignUpForm";
 
-//import api from "@api/api.helper";
+import { authStore } from "@pages/auth/auth.store";
 
 interface FormData {
   name?: string,
@@ -11,12 +10,9 @@ interface FormData {
   submit?: string,
 }
 
-
 export const SignUpContainer = () => {
   const handleSubmit = async (values: FormData) => {
-    //const endpoint = "singup";
-    //const token = await api.put<FormData>(endpoint, values);
-    //localStorage.setItem("accessToken", JSON.stringify(token));
+    const token = await authStore.signUp(JSON.stringify(values));
     setTimeout(() => {
       alert(JSON.stringify(values, null, 2));
     }, 1000);
