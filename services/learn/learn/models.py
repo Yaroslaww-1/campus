@@ -1,8 +1,6 @@
 import uuid
 
 from django.db import models
-
-
 # https://docs.djangoproject.com/en/3.2/ref/models/fields/
 
 
@@ -67,44 +65,32 @@ class Post(models.Model):
 
 
 class Chat(models.Model):
-    id = models.UUIDField(primary_key=True)
-    name = models.CharField(max_length=100)
-    created_at = models.DateTimeField(null=False)
-
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = "chat"
-
-    objects = models.Manager()
-
-
-class UserChat(models.Model):
-    id = models.UUIDField(primary_key=True)
-
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = "user_chat"
-
-    objects = models.Manager()
-
-
-
-class Chat(models.Model):
     chat_id = models.UUIDField(primary_key=True, default=uuid.uuid4())
     name = models.CharField(max_length=100)
     is_group_chat = models.NullBooleanField(blank=True)
-    created_by = models.UUIDField(default=uuid.uuid4())
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "Chat"
 
+    objects = models.Manager()
+
+class UserChat(models.Model):
+    user_chat_id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat_id')
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "UserChat"
+
+    objects = models.Manager()
+
+
 
 class Message(models.Model):
    message_id = models.UUIDField(primary_key=True)
-   created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+   chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat_id')
+   created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='id')
    content = models.TextField(null=False)
    created_at = models.DateTimeField(null=False)
 
@@ -136,15 +122,6 @@ class CourseAssignment(models.Model):
         db_table = "course_assignment"
 
     objects = models.Manager()
-
-
-class UserChat(models.Model):
-    user_chat_id = models.UUIDField(primary_key=True, default=uuid.uuid4())
-    chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat_id')
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE())
-
-    class Meta:
-        db_table = "UserChat"
 
 
 class CourseAssignmentSubmission(models.Model):

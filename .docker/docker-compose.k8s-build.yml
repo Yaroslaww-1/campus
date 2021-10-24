@@ -10,7 +10,7 @@ services:
     networks:
       - campus-learn-network
     env_file:
-      - ./.env/learn.env
+      - ../.env.example/learn.env
     volumes:
       - campus-learn-db-data:/var/lib/postgresql/data
 
@@ -33,7 +33,7 @@ services:
     networks:
       - campus-learn-network
     env_file:
-      - ./.env/learn.env
+      - ../.env.example/learn.env
 
   campus_frontend:
     container_name: campus_frontend
