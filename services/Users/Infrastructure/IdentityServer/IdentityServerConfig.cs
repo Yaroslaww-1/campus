@@ -10,7 +10,12 @@ namespace Users.Infrastructure.IdentityServer
 		{
 			return new List<ApiResource>
 			{
-				new ApiResource("UsersAPI", "Users API", new List<string> { CustomClaimTypes.Email, CustomClaimTypes.Name, CustomClaimTypes.Roles })
+				new ApiResource("UsersAPI", "Users API", new List<string> {
+					CustomClaimTypes.Email,
+					CustomClaimTypes.Name,
+					CustomClaimTypes.Roles,
+					CustomClaimTypes.UserId
+				})
 			};
 		}
 
@@ -32,6 +37,10 @@ namespace Users.Infrastructure.IdentityServer
 					name: CustomClaimTypes.Name,
 					userClaims: new[] { CustomClaimTypes.Name },
 					displayName: "name"),
+				new IdentityResource(
+					name: CustomClaimTypes.UserId,
+					userClaims: new[] { CustomClaimTypes.UserId },
+					displayName: "userid"),
 			};
 		}
 
