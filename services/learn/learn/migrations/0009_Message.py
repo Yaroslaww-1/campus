@@ -12,7 +12,8 @@ class Migration(migrations.Migration):
             name = 'Message',
             fields = [
                 ('message_id', models.UUIDField(primary_key=True, serialize=False)),
-                ('created_by', models.ForeignKey(on_delete = django.db.models.deletion.CASCADE, to = 'learn.post', related_name='created_by')),
+                ('chat_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='learn.chat', related_name='chat_id')),
+                ('created_by', models.ForeignKey(on_delete = django.db.models.deletion.CASCADE, to = 'learn.user', related_name='id')),
                 ('created_on', models.DateTimeField(default=timezone.now)),
                 ('content', models.TextField(null=False))
             ]

@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
                 ('chat_id', models.UUIDField(primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=100)),
                 ('is_group_chat', models.NullBooleanField(blank=True)),
-                ('created_by', models.UUIDField(primary_key=False))
+                ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to = 'learn.user', related_name='id'))
             ]
         ),
 
