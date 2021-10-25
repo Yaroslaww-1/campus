@@ -2,6 +2,7 @@ from django.http import JsonResponse, HttpResponse
 from django.urls import path
 from rest_framework.decorators import api_view, permission_classes
 
+from learn.api.auth.authenticated_user_context import AuthenticatedUserContext
 from learn.api.constants import COMMON_ROUTE_URL
 from learn.api.decorators.in_roles_decorator import in_roles
 from learn.api.enums.roles_enum import Role
