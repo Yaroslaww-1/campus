@@ -15,6 +15,7 @@ from learn.application.posts.get_posts.get_posts_query import GetPostsQuery
 @in_roles([Role.STUDENT, Role.ADMIN, Role.TEACHER])
 def process_posts(request):
     if request.method == "GET":
+        print('user_id', AuthenticatedUserContext(request).user_id)
         posts = GetPostsQuery().execute()
         return JsonResponse(DtoSerializer.to_dict(posts, many=True), safe=False)
     elif request.method == "POST":
