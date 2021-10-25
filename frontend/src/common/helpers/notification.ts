@@ -7,8 +7,14 @@ interface IProps {
   duration?: number
 }
 
+enum NotificationType {
+  success = "success",
+  warning = "warning",
+  info = "info",
+}
+
 export const openNotification = ({ text, type, title, duration = 3 }: IProps) => {
-  if (type == "success" || type == "warning" || type == "info") {
+  if (type == NotificationType.success || type == NotificationType.warning || type == NotificationType.info) {
     notification[type]({
       message: title,
       description: text,
