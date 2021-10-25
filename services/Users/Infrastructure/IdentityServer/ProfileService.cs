@@ -12,6 +12,7 @@ namespace Users.Infrastructure.IdentityServer
             context.IssuedClaims.AddRange(context.Subject.Claims.Where(x => x.Type == CustomClaimTypes.Roles).ToList());
             context.IssuedClaims.Add(context.Subject.Claims.Single(x => x.Type == CustomClaimTypes.Email));
             context.IssuedClaims.Add(context.Subject.Claims.Single(x => x.Type == CustomClaimTypes.Name));
+            context.IssuedClaims.Add(context.Subject.Claims.Single(x => x.Type == CustomClaimTypes.UserId));
 
             return Task.CompletedTask;
         }

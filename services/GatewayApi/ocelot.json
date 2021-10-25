@@ -16,7 +16,8 @@
       "AddHeadersToRequest": {
         "UserEmail": "Claims[email] > value > |",
         "UserName": "Claims[name] > value > |",
-        "UserRoles": "Claims[roles] > value > |"
+        "UserRoles": "Claims[roles] > value > |",
+        "UserId": "Claims[userid] > value > |"
       }
     },
     {
@@ -33,7 +34,7 @@
         "AllowedScopes": []
       },
       "AddHeadersToRequest": {
-        "email": "Claims[email] > value > |",
+        "email": "Claims[email] > value > |"
       }
     },
     {
