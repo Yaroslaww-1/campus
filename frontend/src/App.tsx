@@ -14,14 +14,13 @@ import {
   Auth,
 } from "./pages";
 
+import { PrivateRoute, ProtectedRouteProps } from "@components/privateRoute/privateRoute";
 import { authStore } from "@pages/auth/auth.store";
 
-//add onEnter for private pages
-function authRequired(nextState : unknown, replace: Function) {
-  if (!authStore.isLoggedIn) {
-    replace(AppRoute.SIGNUP);
-  }
-}
+const defaultProtectedRouteProps: ProtectedRouteProps = {
+  isAuthenticated: authStore.isLoggedIn,
+  authenticationPath: AppRoute.SIGNUP,
+};
 
 export const App = () => {
   return (
@@ -29,11 +28,11 @@ export const App = () => {
       <Header></Header>
       <Switch>
         <Route exact path={AppRoute.HOME} component={HomePage} />
-        <Route path={AppRoute.POSTS} component={PostsPage} />
-        <Route path={AppRoute.USERS} component={UsersPage} />
-        <Route path={AppRoute.USER} component={UserProfilePage} />
-        <Route path={AppRoute.SCHEDULE} component={SchedulePage} />
-        <Route path={AppRoute.UPDATEUSERAVATAR} component={UpdateUserAvatar} />
+        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.POSTS} component={PostsPage} />
+        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.USERS} component={UsersPage} />
+        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.USER} component={UserProfilePage} />
+        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.SCHEDULE} component={SchedulePage} />
+        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.UPDATEUSERAVATAR} component={UpdateUserAvatar} />
         <Route path={[AppRoute.LOGIN, AppRoute.SIGNUP]} component={Auth} />
       </Switch>
     </>
