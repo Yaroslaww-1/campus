@@ -44,7 +44,7 @@ def create_roles():
 
     role = Role(
         id=uuid.uuid4(),
-        name="Administrator",
+        name="Admin",
     )
     role.save()
 
@@ -66,43 +66,31 @@ def create_roles():
 def create_users():
     logger.info("Creating users")
 
-    roles_count = Role.objects.count()
-
-    role = Role.objects.all()[random.randint(0, roles_count - 1)]
+    role = Role.objects.get(name="Admin")
     user = User(
-        id=uuid.uuid4(),
-        name="Michael Jackson",
-        email="mj@gmail.com",
+        id="11111111-1111-1111-1111-111111111111",
+        name="Admin",
+        email="admin@gmail.com",
         role=role,
         avatar=None
     )
     user.save()
 
-    role = Role.objects.all()[random.randint(0, roles_count - 1)]
+    role = Role.objects.get(name="Teacher")
     user = User(
-        id=uuid.uuid4(),
-        name="Paul McCartney",
-        email="paul@gmail.com",
+        id="22222222-2222-2222-2222-222222222222",
+        name="Teacher",
+        email="teacher@gmail.com",
         role=role,
         avatar=None
     )
     user.save()
 
-    role = Role.objects.all()[random.randint(0, roles_count - 1)]
+    role = Role.objects.get(name="Student")
     user = User(
-        id=uuid.uuid4(),
-        name="John Lennon",
-        email="john@gmail.com",
-        role=role,
-        avatar=None
-    )
-    user.save()
-
-    role = Role.objects.all()[random.randint(0, roles_count - 1)]
-    user = User(
-        id=00000000 - 0000 - 0000 - 0000 - 000000000000,
-        name="Nazarii Striletskyi",
-        email="cyberfrog@gmail.com",
+        id="33333333-3333-3333-3333-333333333333",
+        name="Student",
+        email="student@gmail.com",
         role=role,
         avatar=None
     )
@@ -114,9 +102,7 @@ def create_users():
 def create_posts():
     logger.info("Creating posts")
 
-    users_count = User.objects.count()
-
-    created_by = User.objects.all()[random.randint(0, users_count - 1)]
+    created_by = User.objects.get(id="22222222-2222-2222-2222-222222222222")
     post = Post(
         id=uuid.uuid4(),
         name="1st lab",
@@ -126,7 +112,7 @@ def create_posts():
     )
     post.save()
 
-    created_by = User.objects.all()[random.randint(0, users_count - 1)]
+    created_by = User.objects.get(id="22222222-2222-2222-2222-222222222222")
     post = Post(
         id=uuid.uuid4(),
         name="Pair link",
@@ -136,7 +122,7 @@ def create_posts():
     )
     post.save()
 
-    created_by = User.objects.all()[random.randint(0, users_count - 1)]
+    created_by = User.objects.get(id="22222222-2222-2222-2222-222222222222")
     post = Post(
         id=uuid.uuid4(),
         name="Dopka(",
@@ -178,34 +164,7 @@ def create_groups():
 def create_students():
     logger.info("Creating students")
 
-    user = User.objects.get(name="Michael Jackson")
-    group = Group.objects.get(name="IP-96")
-    student = Student(
-        id=uuid.uuid4(),
-        user=user,
-        group=group
-    )
-    student.save()
-
-    user = User.objects.get(name="John Lennon")
-    group = Group.objects.get(name="IP-91")
-    student = Student(
-        id=uuid.uuid4(),
-        user=user,
-        group=group
-    )
-    student.save()
-
-    user = User.objects.get(name="Paul McCartney")
-    group = Group.objects.get(name="IP-92")
-    student = Student(
-        id=uuid.uuid4(),
-        user=user,
-        group=group
-    )
-    student.save()
-
-    user = User.objects.get(name="Nazarii Striletskyi")
+    user = User.objects.get(id="33333333-3333-3333-3333-333333333333")
     group = Group.objects.get(name="IP-96")
     student = Student(
         id=uuid.uuid4(),

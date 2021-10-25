@@ -186,7 +186,7 @@ namespace Users.Extensions
 					var salt = securityService.GetRandomSalt();
 					context.Users.Add(new Entities.User()
 					{
-						Id = Guid.NewGuid(),
+						Id = new Guid("33333333-3333-3333-3333-333333333333"),
 						Email = "student@gmail.com",
 						Name = "Student",
 						PasswordHash = securityService.HashPassword("studentPass", salt),
@@ -197,7 +197,7 @@ namespace Users.Extensions
 					salt = securityService.GetRandomSalt();
 					context.Users.Add(new Entities.User()
 					{
-						Id = Guid.NewGuid(),
+						Id = new Guid("22222222-2222-2222-2222-222222222222"),
 						Email = "teacher@gmail.com",
 						Name = "Teacher",
 						PasswordHash = securityService.HashPassword("teacherPass", salt),
@@ -207,8 +207,8 @@ namespace Users.Extensions
 
 					salt = securityService.GetRandomSalt();
 					context.Users.Add(new Entities.User()
-					{
-						Id = Guid.NewGuid(),
+					{			
+						Id = new Guid("11111111-1111-1111-1111-111111111111"),
 						Email = "admin@gmail.com",
 						Name = "Admin",
 						PasswordHash = securityService.HashPassword("adminPass", salt),
