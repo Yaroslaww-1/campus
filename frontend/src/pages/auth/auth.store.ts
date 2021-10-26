@@ -12,17 +12,21 @@ interface AuthData {
 
 export class AuthStore {
   isLoggedIn = false;
+  isSignedUp = false;
   token = "";
   constructor() {
-    const token = localStorage.getItem("accessToken");
-    if (token) this.token = token;
+    this.getToken();
     makeAutoObservable(this);
     if (this.token && this.token.length > 0) {
       this.isLoggedIn = true;
+      this.isSignedUp = true;
     }
   }
 
-  login(){
+  async login(values : string){
+    await this.setToken(values)
+      .then( ()  => {this.isLoggedIn = true;})
+      .catch(err => {this.isSignedUp = false; this.isLoggedIn = false;});
   }
 
   async setToken(values : string){
@@ -35,22 +39,27 @@ export class AuthStore {
       username : "student@gmail.com", //formData.email,
       password : "studentPass", //formData.password,
     };
-    this.token = JSON.stringify(await api.put<AuthData>(endpoint,  authData));
-    localStorage.setItem("accessToken", this.token);
+    await api.put<AuthData>(endpoint,  authData)
+      .then( token  => {this.token = JSON.stringify(token); localStorage.setItem("accessToken", this.token);})
+      .catch(err => {this.isLoggedIn = false;});
   }
 
   getToken(){
-    this.token = localStorage.get("accessToken");
+    const token = localStorage.getItem("accessToken");
+    if (token) this.token = token;
     return this.token;
   }
 
   async signUp(values : string) {
-    await this.setToken(values);
+    await this.setToken(values)
+      .then( ()  => {this.isSignedUp = true; this.isLoggedIn = true;})
+      .catch(err => {this.isSignedUp = false; this.isLoggedIn = false;});
     return this.token;
   }
 
   logout() {
     localStorage.removeItem("accessToken");
+    this.isLoggedIn = false;
   }
 }
 

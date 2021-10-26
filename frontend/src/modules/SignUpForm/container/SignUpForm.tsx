@@ -12,7 +12,7 @@ interface FormData {
 
 export const SignUpContainer = () => {
   const handleSubmit = async (values: FormData) => {
-    authStore.setToken(JSON.stringify(values));
+    authStore.signUp(JSON.stringify(values));
     setTimeout(() => {
       alert(JSON.stringify(values, null, 2));
     }, 1000);
