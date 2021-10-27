@@ -9,18 +9,23 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Users.BuildingBlocks.ExecutionContext;
 using Users.BuildingBlocks.Security;
+using Users.Entities;
 using Users.Infrastructure.EntityFramework;
 using Users.Infrastructure.EntityFramework.Repositories.Users;
 using Users.Infrastructure.IdentityServer;
+using Users.Infrastructure.MessageBroker;
+using Users.Infrastructure.MessageBroker.Sender;
 using Users.Options;
 using Users.Services.Auth;
 using Users.Services.Users;
+using Users.Services.Users.IntegrationEvents;
 
 namespace Users.Extensions
 {
@@ -29,6 +34,7 @@ namespace Users.Extensions
 		public static void RegisterOptions(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Location));
+			services.Configure<RabbitMQOptions>(configuration.GetSection(RabbitMQOptions.Location));
 		}
 
 		public static void RegisterDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -50,6 +56,14 @@ namespace Users.Extensions
 		{
 			services.AddTransient<IUserRepository, UserRepository>();
 		}
+
+		public static void RegisterMessageBroker(this IServiceCollection services)
+        {
+			services.AddSingleton<RabbitMQConnectionFactory>();
+			services.AddSingleton<IMessagePublisher, RabbitMqMessagePublisher>();
+
+			services.AddTransient<UsersIntegrationEventsPublisher>();
+        }
 
 		public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
 		{
@@ -133,7 +147,7 @@ namespace Users.Extensions
 		public static void ApplyDatabaseSeeding(this IApplicationBuilder app)
 		{
 			ApplyRolesSeeding(app);
-			ApplyUsersSeeding(app);
+			AsyncContext.Run(() => ApplyUsersSeeding(app));
 		}
 
 		public static void ApplyRolesSeeding(this IApplicationBuilder app)
@@ -146,36 +160,24 @@ namespace Users.Extensions
 
 				if (!existingRoles.Any())
                 {
-					context.Roles.Add(new Entities.Role()
-					{
-						Id = Guid.NewGuid(),
-						Name = "Student"
-					});
+					context.Roles.Add(Role.CreateNew("Student"));
 
-					context.Roles.Add(new Entities.Role()
-					{
-						Id = Guid.NewGuid(),
-						Name = "Teacher"
-					});
+					context.Roles.Add(Role.CreateNew("Teacher"));
 
-					context.Roles.Add(new Entities.Role()
-					{
-						Id = Guid.NewGuid(),
-						Name = "Admin"
-					});
+					context.Roles.Add(Role.CreateNew("Admin"));
 
 					context.SaveChanges();
 				}
 			};
 		}
 
-		public static void ApplyUsersSeeding(this IApplicationBuilder app)
+		public async static Task ApplyUsersSeeding(this IApplicationBuilder app)
 		{
 			using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
 			{
 				using var context = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
 
-				var securityService = scope.ServiceProvider.GetRequiredService<ISecurityService>();
+				var userService = scope.ServiceProvider.GetRequiredService<UserService>();
 
 				var existingUsers = context.Users.ToList();
 
@@ -183,40 +185,26 @@ namespace Users.Extensions
 
 				if (!existingUsers.Any())
 				{
-					var salt = securityService.GetRandomSalt();
-					context.Users.Add(new Entities.User()
-					{
-						Id = new Guid("33333333-3333-3333-3333-333333333333"),
-						Email = "student@gmail.com",
-						Name = "Student",
-						PasswordHash = securityService.HashPassword("studentPass", salt),
-						PasswordHashSalt = Convert.ToBase64String(salt),
-						Roles = existingRoles.Where(r => r.Name == "Student").ToList()
-					});
+					await userService.CreateUser(
+							new Guid("33333333-3333-3333-3333-333333333333"),
+							"student@gmail.com",
+							"Student",
+							"studentPass",
+							existingRoles.Where(r => r.Name == "Student").ToList());
 
-					salt = securityService.GetRandomSalt();
-					context.Users.Add(new Entities.User()
-					{
-						Id = new Guid("22222222-2222-2222-2222-222222222222"),
-						Email = "teacher@gmail.com",
-						Name = "Teacher",
-						PasswordHash = securityService.HashPassword("teacherPass", salt),
-						PasswordHashSalt = Convert.ToBase64String(salt),
-						Roles = existingRoles.Where(r => r.Name == "Teacher").ToList()
-					});
+					await userService.CreateUser(
+							new Guid("22222222-2222-2222-2222-222222222222"),
+							"teacher@gmail.com",
+							"Teacher",
+							"teacherPass",
+							existingRoles.Where(r => r.Name == "Teacher").ToList());
 
-					salt = securityService.GetRandomSalt();
-					context.Users.Add(new Entities.User()
-					{			
-						Id = new Guid("11111111-1111-1111-1111-111111111111"),
-						Email = "admin@gmail.com",
-						Name = "Admin",
-						PasswordHash = securityService.HashPassword("adminPass", salt),
-						PasswordHashSalt = Convert.ToBase64String(salt),
-						Roles = existingRoles.Where(r => r.Name == "Admin").ToList()
-					});
-
-					context.SaveChanges();
+					await userService.CreateUser(
+							new Guid("11111111-1111-1111-1111-111111111111"),
+							"admin@gmail.com",
+							"Admin",
+							"adminPass",
+							existingRoles.Where(r => r.Name == "Admin").ToList());
 				}
 			};
 		}

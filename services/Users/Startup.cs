@@ -35,6 +35,8 @@ namespace Users
 
             services.RegisterRepositories(Configuration);
 
+            services.RegisterMessageBroker();
+
             services.RegisterServices(Configuration);
 
             services.RegisterIdentityServer(Configuration);

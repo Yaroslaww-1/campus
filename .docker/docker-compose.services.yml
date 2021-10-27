@@ -1,10 +1,11 @@
 version: '3.4'
 
 services:
+  # Databases
   campus_learn_db:
-    image: postgres:13.4
     container_name: campus_learn_db
-    restart: always
+    image: postgres:13.4
+    restart: on-failure
     ports:
       - 7433:5432
     networks:
@@ -17,7 +18,7 @@ services:
   campus_users_db:
     image: postgres:13.4
     container_name: campus_users_db
-    restart: always
+    restart: on-failure
     ports:
       - 7434:5432
     networks:
@@ -27,6 +28,7 @@ services:
     volumes:
       - campus-users-db-data:/var/lib/postgresql/data
 
+  # Gateway API
   campus_gateway_api:
     container_name: campus_gateway_api
     build: 
@@ -37,26 +39,40 @@ services:
     networks:
       - campus-learn-network
       - campus-users-network
-    links:
-      - campus_users_api:campus-users-api
+    # links:
+    #   - campus_users_api:campus-users-api
     environment:
       - Services__Hosts__Learn=http://host.docker.internal:8100
       - Services__Hosts__Users=http://campus-users-api:8200
 
-  campus_users_api:
-    container_name: campus_users_api
-    build: 
-      context: ../services/Users
+  # campus_users_api:
+  #   container_name: campus_users_api
+  #   build: 
+  #     context: ../services/Users
+  #   restart: on-failure
+  #   ports:
+  #     - 8200:8200
+  #   networks:
+  #     - campus-users-network
+  #   environment:
+  #     - UrlsOptions__GatewayApiUrl=http://localhost:8200
+  #     - ASPNETCORE_URLS=http://0.0.0.0:8200
+  #   env_file:
+  #     - ../.env/users.env
+  
+  # Message Broker 
+  campus_message_broker :
+    container_name: campus_message_broker
+    image: rabbitmq:3.9.8-management
     restart: on-failure
     ports:
-      - 8200:8200
+      - 7673:5673
+      - 15672:15672
     networks:
+      - campus-learn-network
       - campus-users-network
-    environment:
-      - UrlsOptions__GatewayApiUrl=http://localhost:8200
-      - ASPNETCORE_URLS=http://0.0.0.0:8200
-    env_file:
-      - ../.env/users.env
+    volumes:
+      - ../.rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
 
 volumes:
   campus-learn-db-data:
