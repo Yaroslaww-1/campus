@@ -15,7 +15,8 @@ class ChatRepository:
             chat_id=ChatId(model.id),
             name=model.name,
             is_group_chat=model.is_group_chat,
-            created_by=UserId(model.created_by)
+            created_by=UserId(model.created_by),
+            members=UserId(model.created_by)
         )
 
     @staticmethod
@@ -50,3 +51,9 @@ class ChatRepository:
 
     def update_chat(self, chat: Chat) -> None:
         ChatModel.objects.filter(id=chat.chat_id.value).update(model_to_dict(self.entity_to_model(chat)))
+
+
+    def add_user(self, chat:Chat, temp_users:List[UserId]) -> Chat:
+        temp_members = chat.members+temp_users
+        chat.members = temp_members.copy()
+        return chat
