@@ -1,8 +1,9 @@
 import inject
 
-from services.learn.learn.application.chats.dtos.chat_dto import  ChatDto
-from services.learn.learn.application.chats.chat_mapper import  ChatMapper
+from services.learn.learn.application.chats.dtos.chat_dto import ChatDto
+from services.learn.learn.application.chats.chat_mapper import ChatMapper
 from services.learn.learn.infrastructure.repositories.chat_repository import ChatRepository
+
 
 class GetChatById:
     @inject.autoparams()

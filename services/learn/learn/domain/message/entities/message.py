@@ -15,7 +15,7 @@ class Message:
 
 
     @classmethod
-    def create_new_message(cls, content: str, chat_id: ChatId, created_by:UserId, create_on:datetime) -> "Message":
+    def create_new_message(cls, content: str, chat_id: ChatId, created_by:UserId) -> "Message":
         message_id = MessageId(value=uuid.uuid4())
-        message = Message(message_id,chat_id,  created_by, create_on,  content)
+        message = Message(message_id, chat_id,  created_by, datetime.now(),  content)
         return message

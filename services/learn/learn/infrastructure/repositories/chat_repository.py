@@ -10,9 +10,9 @@ from services.learn.learn.infrastructure.repositories.user_repository import Use
 
 class ChatRepository:
     @staticmethod
-    def model_to_entity(model:ChatModel)->Chat:
+    def model_to_entity(model:ChatModel) -> Chat:
         return Chat(
-            chat_id=ChatId(model.chat_id),
+            chat_id=ChatId(model.id),
             name=model.name,
             is_group_chat=model.is_group_chat,
             created_by=UserId(model.created_by)
@@ -38,5 +38,15 @@ class ChatRepository:
         return self.model_to_entity(temp_chat)
 
 
-    def save_or_update_chat(self, chat: Chat) -> None:
-        ChatModel.objects.update_or_create(model_to_dict((self.entity_to_model(chat)), id = chat.chat_id.value))
+    def save_chat(self, chat: Chat) -> None:
+        temp_chat = self.entity_to_model(chat)
+        ChatModel.objects.update_or_create(
+            chat_id = temp_chat.chat_id,
+            name = temp_chat.name,
+            is_group_chat = temp_chat.is_group_chat,
+            created_by = temp_chat.created_by
+        )
+
+
+    def update_chat(self, chat: Chat) -> None:
+        ChatModel.objects.filter(id=chat.chat_id.value).update(model_to_dict(self.entity_to_model(chat)))

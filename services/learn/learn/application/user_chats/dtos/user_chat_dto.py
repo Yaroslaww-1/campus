@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 
+from services.learn.learn.application.chats.dtos.chat_dto import ChatDto
+from services.learn.learn.application.users.dtos.user_dto import UserDto
 
 class UserChatDto(BaseModel):
-    user_chat_id: str
-    chat_id: str
-    user_id: str
+    chat: ChatDto
+    user: UserDto

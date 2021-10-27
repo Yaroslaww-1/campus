@@ -7,7 +7,7 @@ from learn.domain.posts.entities.post import Post
 from learn.domain.posts.value_objects.post_id import PostId
 from learn.infrastructure.events.event_bus import EventBus
 from learn.infrastructure.repositories.user_repository import UserRepository
-from services.learn.learn.models import Post as PostModel, Message as MessageModel
+from services.learn.learn.models import Post as PostModel
 
 
 class PostRepository:
@@ -50,14 +50,3 @@ class PostRepository:
             created_at=post_to_save.created_at,
             created_by=post_to_save.created_by
         )
-
-        MessageModel.objects.update_or_create(
-            message_id = post_to_save.id,
-            # TODO: change after consultation
-            chat_id = None,
-            content= ''+post_to_save.name + '\n' + post_to_save.content,
-            created_at=post_to_save.created_at,
-            created_by=post_to_save.created_by
-        )
-
-

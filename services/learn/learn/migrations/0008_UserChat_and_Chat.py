@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name = 'Chat',
+            name = 'chat',
             fields = [
                 ('chat_id', models.UUIDField(primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=100)),
@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         ),
 
         migrations.CreateModel(
-            name = 'UserChat',
+            name = 'user_chat',
             fields = [
                 ('user_chat_id', models.UUIDField(primary_key=True, serialize=False)),
                 ("chat_id", models.ForeignKey(on_delete = django.db.models.deletion.CASCADE, to = 'learn.Chat', related_name='chat_id')),

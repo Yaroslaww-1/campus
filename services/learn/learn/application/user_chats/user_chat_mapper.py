@@ -8,10 +8,10 @@ class UserChatMapper:
     @staticmethod
     def to_dto(entity: UserChat) -> UserChatDto:
         return UserChatDto(
-            user_chat_id = entity.user_chat_id.value,
-            chat_id = entity.chat_id.value,
-            user_id = entity.user_id.value
-       )
+            user_chat_id=entity.user_chat_id.value,
+            chat_id=entity.chat_id.value,
+            user_id=entity.user_id.value
+        )
 
     @staticmethod
     def to_dto(entities: List[UserChat]) -> List[UserChatDto]:

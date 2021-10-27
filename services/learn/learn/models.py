@@ -1,6 +1,8 @@
 import uuid
 
 from django.db import models
+
+
 # https://docs.djangoproject.com/en/3.2/ref/models/fields/
 
 
@@ -65,38 +67,39 @@ class Post(models.Model):
 
 
 class Chat(models.Model):
-    chat_id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    id = models.UUIDField(primary_key=True)
     name = models.CharField(max_length=100)
     is_group_chat = models.NullBooleanField(blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "Chat"
+        db_table = "chat"
 
     objects = models.Manager()
+
 
 class UserChat(models.Model):
     user_chat_id = models.UUIDField(primary_key=True, default=uuid.uuid4())
-    chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat_id')
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "UserChat"
+        db_table = "user_chat"
 
     objects = models.Manager()
 
 
-
 class Message(models.Model):
-   message_id = models.UUIDField(primary_key=True)
-   chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat_id')
-   created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='id')
-   content = models.TextField(null=False)
-   created_at = models.DateTimeField(null=False)
+    id = models.UUIDField(primary_key=True)
+    chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat_id')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='id')
+    content = models.TextField(null=False)
+    created_at = models.DateTimeField(null=False)
 
-   class Meta:
+    class Meta:
         db_table = "message"
-   objects = models.Manager()
+
+    objects = models.Manager()
 
 
 class Course(models.Model):

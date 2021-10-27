@@ -3,18 +3,18 @@ from django.forms import model_to_dict
 
 from services.learn.learn.infrastructure.repositories.user_repository import UserRepository
 from services.learn.learn.infrastructure.repositories.chat_repository import ChatRepository
-from services.learn.learn.models import User as UserModel, Chat as ChatModel, UserChat as UCModel
+from services.learn.learn.models import User as UserModel, UserChat as UCModel, Chat as ChatModel
 from services.learn.learn.domain.user_chat.entities.user_chat import UserChat
 from services.learn.learn.domain.user_chat.value_objects.user_chat_id import UserChatId
 
 
 class UserChatRepository:
     @staticmethod
-    def model_to_entity(model: UCModel,  user_model: UserModel) -> UserChat:
+    def model_to_entity(model: UCModel,  user_model: UserModel, chat_model: ChatModel) -> UserChat:
         return UserChat(
             user_chat_id= UserChatId(model.user_chat_id),
-            chat_id=ChatRepository.model_to_entity(model.chat_id),
-            user_id=UserRepository.model_to_entity(model.user_id)
+            chat_id=ChatRepository.model_to_entity(model.chat_id.value),
+            user_id=UserRepository.model_to_entity(user_model.id.value)
         )
 
     @staticmethod
