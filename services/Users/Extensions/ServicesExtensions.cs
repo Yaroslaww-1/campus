@@ -109,7 +109,9 @@ namespace Users.Extensions
 				var logger = container.GetRequiredService<Microsoft.Extensions.Logging.ILogger<DefaultCorsPolicyService>>();
 				return new DefaultCorsPolicyService(logger)
 				{
-					AllowedOrigins = { urlsOptions.GatewayApiUrl }
+					//TODO: Enable
+					//AllowedOrigins = { urlsOptions.GatewayApiUrl }
+					AllowAll = true
 				};
 			});
 
