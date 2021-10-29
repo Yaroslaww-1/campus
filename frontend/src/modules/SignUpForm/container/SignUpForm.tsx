@@ -1,6 +1,7 @@
 import { SignUp } from "../components/SignUpForm";
 
 import { authStore } from "@pages/auth/auth.store";
+import { useHistory } from "react-router";
 
 interface FormData {
   name?: string,
@@ -11,11 +12,10 @@ interface FormData {
 }
 
 export const SignUpContainer = () => {
-  const handleSubmit = async (values: FormData) => {
-    authStore.signUp(JSON.stringify(values));
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-    }, 1000);
+  const history = useHistory();
+  const handleSubmit = (values: FormData) => {
+    authStore.signUp(JSON.stringify(values))
+      .then(() => history.push(authStore.path));
   };
 
   return <SignUp handleSubmit={handleSubmit}/>;

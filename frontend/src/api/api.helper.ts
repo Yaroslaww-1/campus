@@ -13,10 +13,10 @@ class Api {
     this.instance = axios.create({
       baseURL: BASE_URL,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    this.commonHeaders = { "Content-Type": "application/json" };
+    this.commonHeaders = { "Content-Type": "application/x-www-form-urlencoded" };
   }
 
   async get<Response = unknown, Params = unknown>(url: string, params?: Params): Promise<Response> {
@@ -90,7 +90,7 @@ class ApiWithAuth extends Api {
     this.instance = axios.create({
       baseURL: BASE_URL,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       withCredentials: true,
     });
@@ -101,7 +101,7 @@ class ApiWithAuth extends Api {
   initInterceptor(): void {
     this.instance.interceptors.request.use(
       request => {
-        request.headers.authorization = `Bearer ${localStorage.get("accessToken")}`;
+        request.headers.authorization = `Bearer ${localStorage.getItem("accessToken")}`;
       },
       error => {
         return Promise.reject(error);

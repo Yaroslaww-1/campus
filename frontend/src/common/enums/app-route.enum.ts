@@ -7,4 +7,5 @@ export enum AppRoute {
   USER = "/user/:id",
   LOGIN = "/login",
   UPDATEUSERAVATAR = "/update-avatar",
+  COURSES = "/courses",
 }

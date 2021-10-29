@@ -11,10 +11,11 @@ export interface ProtectedRouteProps extends RouteProps {
 export class PrivateRoute extends Route<ProtectedRouteProps>{
   public render(){
     let redirectPath: string = "";
+    authStore.path = this.props.path?.toString() || AppRoute.HOME;
     if (!authStore.isSignedUp) {
       redirectPath = AppRoute.SIGNUP;
     }
-    else if (!authStore.isLoggedIn){
+    else if (!authStore.isLoggedIn ){
       redirectPath = AppRoute.LOGIN;
     }
     if (redirectPath) {
