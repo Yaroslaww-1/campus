@@ -37,6 +37,8 @@ namespace GatewayApi
         {
             var authenticationProviderKey = "IdentityApiKey";
 
+            services.AddCors();
+
             services.AddOcelot(Configuration);
             
             services.AddAuthentication()
@@ -61,6 +63,12 @@ namespace GatewayApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials());
 
             app.UseOcelot().Wait();
         }
