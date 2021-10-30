@@ -7,5 +7,6 @@
         public string HostName { get; set; }
         public string Port { get; set; }
         public string QueueName { get; set; }
+        public string BrokerName { get; set; }
     }
 }

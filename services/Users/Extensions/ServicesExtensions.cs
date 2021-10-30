@@ -11,7 +11,6 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Nito.AsyncEx;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Users.BuildingBlocks.ExecutionContext;
@@ -19,13 +18,12 @@ using Users.BuildingBlocks.Security;
 using Users.Entities;
 using Users.Infrastructure.EntityFramework;
 using Users.Infrastructure.EntityFramework.Repositories.Users;
+using Users.Infrastructure.EventBus.Integration;
+using Users.Infrastructure.EventBus.Integration.RabbitMQ;
 using Users.Infrastructure.IdentityServer;
-using Users.Infrastructure.MessageBroker;
-using Users.Infrastructure.MessageBroker.Sender;
 using Users.Options;
 using Users.Services.Auth;
 using Users.Services.Users;
-using Users.Services.Users.IntegrationEvents;
 
 namespace Users.Extensions
 {
@@ -57,12 +55,10 @@ namespace Users.Extensions
 			services.AddTransient<IUserRepository, UserRepository>();
 		}
 
-		public static void RegisterMessageBroker(this IServiceCollection services)
+		public static void RegisterEventBus(this IServiceCollection services)
         {
 			services.AddSingleton<RabbitMQConnectionFactory>();
-			services.AddSingleton<IMessagePublisher, RabbitMqMessagePublisher>();
-
-			services.AddTransient<UsersIntegrationEventsPublisher>();
+			services.AddSingleton<IIntegrationEventBus, RabbitMQIntegrationEventBus>();
         }
 
 		public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)

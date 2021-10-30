@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Users.Infrastructure.EventBus.Integration;
 
 namespace Users.Services.Users.IntegrationEvents
 {
-    public class UserCreatedIntegrationEvent
+    public class UserCreatedIntegrationEvent : IntegrationEvent
     {
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public List<string> Roles { get; set; }
 
-        public UserCreatedIntegrationEvent(Guid id, string name, string email, List<string> roles)
+        public UserCreatedIntegrationEvent(Guid userId, string name, string email, List<string> roles)
+            :base(Guid.NewGuid(), DateTime.Now)
         {
-            Id = id;
+            UserId = userId;
             Name = name;
             Email = email;
             Roles = roles;

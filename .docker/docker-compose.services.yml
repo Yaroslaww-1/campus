@@ -39,30 +39,38 @@ services:
     networks:
       - campus-learn-network
       - campus-users-network
-    # links:
-    #   - campus_users_api:campus-users-api
+    links:
+      - campus_users_api:campus-users-api
     environment:
       - Services__Hosts__Learn=http://host.docker.internal:8100
       - Services__Hosts__Users=http://campus-users-api:8200
 
-  # campus_users_api:
-  #   container_name: campus_users_api
-  #   build: 
-  #     context: ../services/Users
-  #   restart: on-failure
-  #   ports:
-  #     - 8200:8200
-  #   networks:
-  #     - campus-users-network
-  #   environment:
-  #     - UrlsOptions__GatewayApiUrl=http://localhost:8200
-  #     - ASPNETCORE_URLS=http://0.0.0.0:8200
-  #   env_file:
-  #     - ../.env/users.env
+  campus_users_api:
+    container_name: campus_users_api
+    build: 
+      context: ../services/Users
+    restart: on-failure
+    ports:
+      - 8200:8200
+    networks:
+      - campus-users-network
+    links:
+      - campus_event_bus:campus-event-bus
+    environment:
+      - UrlsOptions__GatewayApiUrl=http://localhost:8200
+      - RabbitMQOptions__HostName=campus-event-bus
+      - RabbitMQOptions__Port=5673
+      - RabbitMQOptions__QueueName=campus
+      - RabbitMQOptions__BrokerName=campus_event_bus
+      - ASPNETCORE_URLS=http://0.0.0.0:8200
+    env_file:
+      - ../.env/users.env
+    depends_on:
+      - campus_event_bus
   
-  # Message Broker 
-  campus_message_broker :
-    container_name: campus_message_broker
+  # Event Bus
+  campus_event_bus:
+    container_name: campus_event_bus
     image: rabbitmq:3.9.8-management
     restart: on-failure
     ports:

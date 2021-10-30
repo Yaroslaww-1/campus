@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Users.BuildingBlocks.Security;
 using Users.Entities;
 using Users.Infrastructure.EntityFramework.Repositories.Users;
+using Users.Infrastructure.EventBus.Integration;
 using Users.Services.Users.IntegrationEvents;
 
 namespace Users.Services.Users
@@ -13,13 +14,13 @@ namespace Users.Services.Users
     {
         private readonly IUserRepository _userRepository;
         private readonly ISecurityService _securityService;
-        private readonly UsersIntegrationEventsPublisher _usersIntegrationEventsPublisher;
+        private readonly IIntegrationEventBus _integrationEventBus;
 
-        public UserService(IUserRepository userRepository, ISecurityService securityService, UsersIntegrationEventsPublisher usersIntegrationEventsPublisher)
+        public UserService(IUserRepository userRepository, ISecurityService securityService, IIntegrationEventBus integrationEventBus)
         {
             _userRepository = userRepository;
             _securityService = securityService;
-            _usersIntegrationEventsPublisher = usersIntegrationEventsPublisher;
+            _integrationEventBus = integrationEventBus;
         }
 
         public async Task<IList<UserDto>> GetAllUsers()
@@ -55,7 +56,7 @@ namespace Users.Services.Users
 
             await _userRepository.CreateUser(user);
 
-            _usersIntegrationEventsPublisher.PublishUserCreatedEvent(new UserCreatedIntegrationEvent(user.Id, user.Name, user.Email, roles.Select(r => r.Name).ToList()));
+            await _integrationEventBus.Publish(new UserCreatedIntegrationEvent(user.Id, user.Name, user.Email, roles.Select(r => r.Name).ToList()));
         }
     }
 }

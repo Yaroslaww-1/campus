@@ -1,18 +1,17 @@
 from typing import List
 
 import inject
-from django.forms import model_to_dict
 
 from learn.domain.posts.entities.post import Post
 from learn.domain.posts.value_objects.post_id import PostId
-from learn.infrastructure.events.event_bus import EventBus
+from learn.infrastructure.event_bus.domain.domain_event_bus import DomainEventBus
 from learn.infrastructure.repositories.user_repository import UserRepository
 from learn.models import Post as PostModel
 
 
 class PostRepository:
     @inject.autoparams()
-    def __init__(self, event_bus: EventBus):
+    def __init__(self, event_bus: DomainEventBus):
         self.event_bus = event_bus
 
     @staticmethod
