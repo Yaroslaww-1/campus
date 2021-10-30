@@ -8,6 +8,11 @@ export interface ProtectedRouteProps extends RouteProps {
   authenticationPath: string;
 }
 
+export const defaultProtectedRouteProps: ProtectedRouteProps = {
+  isAuthenticated: authStore.isLoggedIn,
+  authenticationPath: AppRoute.LOGIN,
+};
+
 export class PrivateRoute extends Route<ProtectedRouteProps>{
   public render(){
     let redirectPath: string = "";
@@ -15,7 +20,7 @@ export class PrivateRoute extends Route<ProtectedRouteProps>{
     if (!authStore.isSignedUp) {
       redirectPath = AppRoute.SIGNUP;
     }
-    else if (!authStore.isLoggedIn ){
+    else if (!authStore.isLoggedIn || !authStore.isTokenValid()){
       redirectPath = AppRoute.LOGIN;
     }
     if (redirectPath) {

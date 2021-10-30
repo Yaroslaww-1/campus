@@ -14,13 +14,7 @@ import {
   Auth,
 } from "./pages";
 
-import { PrivateRoute, ProtectedRouteProps } from "@components/privateRoute/privateRoute";
-import { authStore } from "@pages/auth/auth.store";
-
-const defaultProtectedRouteProps: ProtectedRouteProps = {
-  isAuthenticated: authStore.isLoggedIn,
-  authenticationPath: AppRoute.LOGIN,
-};
+import { PrivateRoute, defaultProtectedRouteProps } from "@components/privateRoute/privateRoute";
 
 export const App = () => {
   return (
