@@ -71,30 +71,30 @@ def create_users():
         id="11111111-1111-1111-1111-111111111111",
         name="Admin",
         email="admin@gmail.com",
-        role=role,
         avatar=None
     )
     user.save()
+    user.roles.set([role])
 
     role = Role.objects.get(name="Teacher")
     user = User(
         id="22222222-2222-2222-2222-222222222222",
         name="Teacher",
         email="teacher@gmail.com",
-        role=role,
         avatar=None
     )
     user.save()
+    user.roles.set([role])
 
     role = Role.objects.get(name="Student")
     user = User(
         id="33333333-3333-3333-3333-333333333333",
         name="Student",
         email="student@gmail.com",
-        role=role,
         avatar=None
     )
     user.save()
+    user.roles.set([role])
 
     logger.info("Users created")
 

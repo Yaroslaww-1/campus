@@ -1,13 +1,21 @@
 import uuid
+from abc import ABC, abstractmethod
 from typing import List, TypeVar, Generic, Type, Callable
 
 
 T = TypeVar("T")
+E = TypeVar('E')
 
 
 class DomainEvent:
     def __init__(self):
         self.id = uuid.uuid4()
+
+
+class DomainEventHandler(ABC, Generic[E]):
+    @abstractmethod
+    def handle(self, event: E):
+        raise NotImplementedError()
 
 
 class WithDomainEventsMixin:
@@ -23,10 +31,3 @@ class WithDomainEventsMixin:
 
     def clear_domain_events(self) -> None:
         self._pending_domain_events.clear()
-
-
-class Handler(Generic[T]):
-    """Simple generic used to associate handlers with events using DI.
-    e.g Handler[AuctionEnded].
-    """
-    pass

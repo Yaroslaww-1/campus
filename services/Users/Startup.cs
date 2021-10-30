@@ -1,14 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Users.Extensions;
 
 namespace Users
@@ -34,6 +28,8 @@ namespace Users
             services.RegisterDatabase(Configuration);
 
             services.RegisterRepositories(Configuration);
+
+            services.RegisterEventBus();
 
             services.RegisterServices(Configuration);
 

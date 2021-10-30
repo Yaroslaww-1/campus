@@ -1,10 +1,11 @@
 version: '3.4'
 
 services:
+  # Databases
   campus_learn_db:
-    image: postgres:13.4
     container_name: campus_learn_db
-    restart: always
+    image: postgres:13.4
+    restart: on-failure
     ports:
       - 7433:5432
     networks:
@@ -17,7 +18,7 @@ services:
   campus_users_db:
     image: postgres:13.4
     container_name: campus_users_db
-    restart: always
+    restart: on-failure
     ports:
       - 7434:5432
     networks:
@@ -27,6 +28,7 @@ services:
     volumes:
       - campus-users-db-data:/var/lib/postgresql/data
 
+  # Gateway API
   campus_gateway_api:
     container_name: campus_gateway_api
     build: 
@@ -52,11 +54,33 @@ services:
       - 8200:8200
     networks:
       - campus-users-network
+    links:
+      - campus_event_bus:campus-event-bus
     environment:
       - UrlsOptions__GatewayApiUrl=http://localhost:8200
+      - RabbitMQOptions__HostName=campus-event-bus
+      - RabbitMQOptions__Port=5673
+      - RabbitMQOptions__QueueName=campus
+      - RabbitMQOptions__BrokerName=campus_event_bus
       - ASPNETCORE_URLS=http://0.0.0.0:8200
     env_file:
       - ../.env/users.env
+    depends_on:
+      - campus_event_bus
+  
+  # Event Bus
+  campus_event_bus:
+    container_name: campus_event_bus
+    image: rabbitmq:3.9.8-management
+    restart: on-failure
+    ports:
+      - 7673:5673
+      - 15672:15672
+    networks:
+      - campus-learn-network
+      - campus-users-network
+    volumes:
+      - ../.rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
 
 volumes:
   campus-learn-db-data:
