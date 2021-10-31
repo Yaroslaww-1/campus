@@ -2,7 +2,7 @@ import inject
 from pydantic import BaseModel, StrictStr
 
 
-from services.learn.learn.application.chats.dtos.chat_dto import ChatDto
+from services.learn.learn.application.chats.dtos.chats_dto import ChatDto
 from services.learn.learn.domain.users.value_objects.user_id import UserId
 from services.learn.learn.application.chats.chat_mapper import ChatMapper
 from services.learn.learn.domain.Chat.entities.chat import Chat
