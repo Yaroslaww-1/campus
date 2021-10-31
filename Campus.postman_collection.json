@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6a752720-1095-4508-b2c0-2234c866c175",
+		"_postman_id": "4555b185-8c42-4cbf-8fba-136adb4c90cb",
 		"name": "Campus",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -208,11 +208,32 @@
 						{
 							"name": "Create Post",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Hello, pervashi!\",\r\n    \"content\": \"empty str....\"\r\n}",
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Last post",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "ban",
+											"type": "text"
+										}
+									],
 									"options": {
 										"raw": {
 											"language": "json"
@@ -220,7 +241,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8000/api/v1/posts",
+									"raw": "http://localhost:8000/api/learn/posts",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -228,7 +249,7 @@
 									"port": "8000",
 									"path": [
 										"api",
-										"v1",
+										"learn",
 										"posts"
 									]
 								}
