@@ -13,6 +13,8 @@ import {
   UpdateUserAvatar,
   Auth,
 } from "./pages";
+//TODO: add create chat direct to index.tsx in chat folder
+import { CreateChat } from "@pages/chat/components/create-chat";
 
 export const App = () => {
   return (
@@ -26,6 +28,7 @@ export const App = () => {
         <Route path={AppRoute.SCHEDULE} component={SchedulePage} />
         <Route path={AppRoute.UPDATEUSERAVATAR} component={UpdateUserAvatar} />
         <Route path={[AppRoute.LOGIN, AppRoute.SIGNUP]} component={Auth} />
+        <Route path={AppRoute.CHATCREATE} component={CreateChat} />
       </Switch>
     </>
   );
