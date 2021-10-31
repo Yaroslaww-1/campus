@@ -33,18 +33,21 @@ class ChatRepository:
         chats = ChatModel.objects.all()
         return list(map(self.model_to_entity, chats))
 
+
     def get_chat_by_id(self, chat_id) -> Chat:
         temp_chat = ChatModel.objects.get(chat_id=chat_id)
         return self.model_to_entity(temp_chat)
 
+
     def save_chat(self, chat: Chat) -> None:
         temp_chat = self.entity_to_model(chat)
         ChatModel.objects.update_or_create(
-            chat_id=temp_chat.chat_id,
+            chat_id=temp_chat.id,
             name=temp_chat.name,
             is_group_chat=temp_chat.is_group_chat,
             created_by=temp_chat.created_by
         )
+
 
     def update_chat(self, chat: Chat) -> None:
         ChatModel.objects.filter(id=chat.chat_id.value).update(model_to_dict(self.entity_to_model(chat)))
