@@ -14,17 +14,20 @@ import {
   Auth,
 } from "./pages";
 
+import { PrivateRoute } from "@components/privateRoute/privateRoute";
+
 export const App = () => {
   return (
     <>
       <Header></Header>
       <Switch>
         <Route exact path={AppRoute.HOME} component={HomePage} />
-        <Route path={AppRoute.POSTS} component={PostsPage} />
-        <Route path={AppRoute.USERS} component={UsersPage} />
-        <Route path={AppRoute.USER} component={UserProfilePage} />
-        <Route path={AppRoute.SCHEDULE} component={SchedulePage} />
-        <Route path={AppRoute.UPDATEUSERAVATAR} component={UpdateUserAvatar} />
+        <PrivateRoute path={AppRoute.POSTS} component={PostsPage} />
+        <PrivateRoute path={AppRoute.USERS} component={UsersPage} />
+        <PrivateRoute path={AppRoute.USER} component={UserProfilePage} />
+        <PrivateRoute path={AppRoute.SCHEDULE} component={SchedulePage} />
+        <PrivateRoute path={AppRoute.COURSES} />
+        <PrivateRoute path={AppRoute.UPDATEUSERAVATAR} component={UpdateUserAvatar} />
         <Route path={[AppRoute.LOGIN, AppRoute.SIGNUP]} component={Auth} />
       </Switch>
     </>

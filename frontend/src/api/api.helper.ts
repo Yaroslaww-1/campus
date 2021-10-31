@@ -5,7 +5,7 @@ import { stringifyParams } from "../common/helpers/url.helper";
 const BASE_URL = process.env.REACT_APP_API_URL || "/api";
 
 class Api {
-  private readonly instance: AxiosInstance;
+  instance: AxiosInstance;
   private readonly commonHeaders: {
     [key in string]: string;
   };
@@ -30,9 +30,11 @@ class Api {
     return this.validateAndReturnResponse<Response>(response);
   }
 
-  async post<Response = unknown, Payload = unknown>(url: string, payload: Payload): Promise<Response> {
+  async post<Response = unknown, Payload = unknown>(url: string, payload: Payload, contentType?: string ): Promise<Response> {
     const response = await this.instance
-      .post(url, payload, {
+      .post(url, payload, contentType? {
+        headers: { "Content-Type": contentType },
+      }:{
         headers: this.commonHeaders,
       })
       .then(({ data }) => data)
@@ -82,5 +84,38 @@ class Api {
     }
   }
 }
+
+class ApiWithAuth extends Api {
+  constructor() {
+    super();
+
+    this.instance = axios.create({
+      baseURL: BASE_URL,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
+
+    this.initInterceptor();
+  }
+
+  initInterceptor(): void {
+    this.instance.interceptors.request.use(
+      request => {
+        request.headers.authorization = `Bearer ${localStorage.getItem("accessToken")}`;
+      },
+      error => {
+        return Promise.reject(error);
+      },
+    );
+  }
+}
+
+const api = new Api();
+const apiWithAuth = new ApiWithAuth();
+
+export { Api, ApiWithAuth };
+export { api, apiWithAuth };
 
 export default new Api();
