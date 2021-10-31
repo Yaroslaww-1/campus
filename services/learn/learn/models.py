@@ -21,7 +21,8 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     avatar = models.CharField(max_length=200, null=True)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+
+    roles = models.ManyToManyField(Role, db_table="user_role")
 
     class Meta:
         db_table = "user"

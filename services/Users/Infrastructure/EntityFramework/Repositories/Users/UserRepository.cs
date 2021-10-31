@@ -32,5 +32,11 @@ namespace Users.Infrastructure.EntityFramework.Repositories.Users
 
             return user;
         }
+
+        public async Task CreateUser(User user)
+        {
+            await _dbContext.Users.AddAsync(user);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

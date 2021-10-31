@@ -9,5 +9,6 @@ namespace Users.Infrastructure.EntityFramework.Repositories.Users
     {
         Task<IList<User>> GetAll();
         Task<User> GetById(Guid id);
+        Task CreateUser(User user);
     }
 }

@@ -20,3 +20,5 @@ six==1.16.0
 sqlparse==0.4.2
 typing-extensions==3.10.0.2
 urllib3==1.26.7
+
+pika~=1.2.0

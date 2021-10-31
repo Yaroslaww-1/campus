@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Users.BuildingBlocks.Security;
+using Users.Entities;
 using Users.Infrastructure.EntityFramework.Repositories.Users;
+using Users.Infrastructure.EventBus.Integration;
+using Users.Services.Users.IntegrationEvents;
 
 namespace Users.Services.Users
 {
     public class UserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ISecurityService _securityService;
+        private readonly IIntegrationEventBus _integrationEventBus;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, ISecurityService securityService, IIntegrationEventBus integrationEventBus)
         {
             _userRepository = userRepository;
+            _securityService = securityService;
+            _integrationEventBus = integrationEventBus;
         }
 
         public async Task<IList<UserDto>> GetAllUsers()
@@ -28,6 +36,27 @@ namespace Users.Services.Users
                         .ToList()
                 })
                 .ToList();
+        }
+
+        public async Task CreateUser(
+            Guid id,
+            string email,
+            string name,
+            string password,
+            List<Role> roles)
+        {
+            var user = User.CreateNew(
+                email,
+                name,
+                password,
+                roles,
+                _securityService);
+
+            user.Id = id;
+
+            await _userRepository.CreateUser(user);
+
+            await _integrationEventBus.Publish(new UserCreatedIntegrationEvent(user.Id, user.Name, user.Email, roles.Select(r => r.Name).ToList()));
         }
     }
 }
