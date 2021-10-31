@@ -33,6 +33,11 @@ spec:
             host: gateway-api-service
             port:
               number: 8000
+      timeout: 5ms
+      retries:
+        attempts: 3
+        retryOn: 5xx
+        perTryTimeout: 5ms
     - name: "frontend"
       route:
         - destination:
