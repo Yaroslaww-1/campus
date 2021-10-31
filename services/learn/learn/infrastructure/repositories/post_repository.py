@@ -6,7 +6,7 @@ from learn.domain.posts.entities.post import Post
 from learn.domain.posts.value_objects.post_id import PostId
 from learn.infrastructure.event_bus.domain.domain_event_bus import DomainEventBus
 from learn.infrastructure.repositories.user_repository import UserRepository
-from learn.models import Post as PostModel
+from services.learn.learn.models import Post as PostModel
 
 
 class PostRepository:

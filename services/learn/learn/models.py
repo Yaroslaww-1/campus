@@ -70,8 +70,7 @@ class Post(models.Model):
 class Chat(models.Model):
     id = models.UUIDField(primary_key=True)
     name = models.CharField(max_length=100)
-    created_at = models.DateTimeField(null=False)
-
+    is_group_chat = models.NullBooleanField(blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
@@ -81,9 +80,8 @@ class Chat(models.Model):
 
 
 class UserChat(models.Model):
-    id = models.UUIDField(primary_key=True)
-
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    user_chat_id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
@@ -94,11 +92,10 @@ class UserChat(models.Model):
 
 class Message(models.Model):
     id = models.UUIDField(primary_key=True)
+    chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat_id')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='id')
     content = models.TextField(null=False)
     created_at = models.DateTimeField(null=False)
-
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "message"
@@ -156,5 +153,4 @@ class CourseAssignmentSubmissionReview(models.Model):
     class Meta:
         db_table = "course_assignment_submission_review"
 
-
-objects = models.Manager()
+    objects = models.Manager()

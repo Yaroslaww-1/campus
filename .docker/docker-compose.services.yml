@@ -12,6 +12,7 @@ services:
       - campus-learn-network
     env_file:
       - ../.env/learn.env
+
     volumes:
       - campus-learn-db-data:/var/lib/postgresql/data
 
