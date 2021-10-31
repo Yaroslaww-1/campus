@@ -15,7 +15,7 @@ export const CreatePost: React.FC = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("content", content);
-    api.put(BASE_URL + endpoint, formData);
+    api.post(BASE_URL + endpoint, formData);
   }
 
   return (
