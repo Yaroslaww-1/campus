@@ -63,6 +63,7 @@ services:
       - RabbitMQOptions__QueueName=campus
       - RabbitMQOptions__BrokerName=campus_event_bus
       - ASPNETCORE_URLS=http://0.0.0.0:8200
+      - DatabaseOptions__ConnectionString=Host=campus_users_db;Port=5432;Database=postgres;Username=postgres;Password=123456 
     env_file:
       - ../.env/users.env
     depends_on:

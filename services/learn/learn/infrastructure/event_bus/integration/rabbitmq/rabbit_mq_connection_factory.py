@@ -9,7 +9,10 @@ class RabbitMQConnectionFactory:
     @inject.autoparams()
     def __init__(self, options: RabbitMQOptions):
         self._options = options
-        self._connection = pika.BlockingConnection(pika.ConnectionParameters(host=options.host_name, port=options.port))
+        import logging
+        logging.basicConfig()
+        print(options.host_name, options.port)
+        self._connection = pika.BlockingConnection(pika.ConnectionParameters(host=options.host_name, port=options.port, connection_attempts=5))
 
     @property
     def connection(self):

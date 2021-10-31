@@ -1,28 +1,28 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: rabbitmq-deployment
 spec:
   replicas: 1
   revisionHistoryLimit: 0
   selector:
     matchLabels:
-      app: frontend
+      app: rabbitmq
   template:
     metadata:
-     labels:
-       app: frontend
+      labels:
+        app: rabbitmq
     spec:
       containers:
-        - image: docker_campus_frontend:latest
-          imagePullPolicy: Never
-          name: frontend
+        - image: rabbitmq:3.9.8
+          name: rabbitmq
           ports:
-            - containerPort: 3000
+            - containerPort: 5673
           resources:
             limits:
-              memory: 1024Mi
-              cpu: "0.5"
+              memory: 512Mi
+              cpu: "0.2"
             requests:
               memory: 256Mi
               cpu: "0.2"

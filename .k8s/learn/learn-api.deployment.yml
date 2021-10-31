@@ -19,14 +19,48 @@ spec:
           imagePullPolicy: Never
           name: learn-api
           ports:
-            - containerPort: 8000
+            - containerPort: 8100
+          env:
+            - name: HOST
+              value: 0.0.0.0
+            - name: PORT
+              value: '8100'
+            - name: FRONTEND_URL
+              value: http://172.29.195.207
+            - name: ALLOWED_HOSTS
+              value: '*'
+            # RabbitMQ
+            - name: RABBITMQ_HOST_NAME
+              value: rabbitmq-service.campus-namespace.svc.cluster.local
+            - name: RABBITMQ_PORT
+              value: '5672'
+            - name: RABBITMQ_QUEUE_NAME
+              value: campus
+            - name: RABBITMQ_BROKER_NAME
+              value: campus_event_bus
+            # Database
+            - name: DB_DATABASE_NAME
+              value: postgres
+            - name: DB_USER
+              value: postgres
+            - name: DB_HOST
+              value: host.minikube.internal
+            - name: DB_PORT
+              value: '7433'
+          command:
+          - /bin/bash
+          - -c
+          - |
+            sleep 30
+            python manage.py migrate learn
+            python manage.py runserver
           envFrom:
           - secretRef:
               name: learn-api-secrets
           resources:
             limits:
-              memory: 512Mi
-              cpu: "0.5"
+              memory: 1024Mi
+              cpu: "0.2"
             requests:
               memory: 256Mi
               cpu: "0.2"

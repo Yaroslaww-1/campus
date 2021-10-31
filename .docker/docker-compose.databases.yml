@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  campus_learn_db:
+    container_name: campus_learn_db
+    image: postgres:13.4
+    restart: on-failure
+    ports:
+      - 7433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - campus-learn-db-data:/var/lib/postgresql/data
+
+  campus_users_db:
+    image: postgres:13.4
+    container_name: campus_users_db
+    restart: on-failure
+    ports:
+      - 7434:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - campus-users-db-data:/var/lib/postgresql/data
+
+
+volumes:
+  campus-learn-db-data:
+    driver: local
+  campus-users-db-data:
+    driver: local
