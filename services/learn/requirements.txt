@@ -22,3 +22,6 @@ typing-extensions==3.10.0.2
 urllib3==1.26.7
 
 pika~=1.2.0
+
+APScheduler~=3.8.1
+pyhumps~=3.0.2

@@ -1,0 +1,46 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-api-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: users-api
+  template:
+    metadata:
+      labels:
+        app: users-api
+    spec:
+      containers:
+        - image: docker_campus_users_api:latest
+          imagePullPolicy: Never
+          name: users-api
+          ports:
+            - containerPort: 8200
+          env:
+            - name: UrlsOptions__GatewayApiUrl
+              value: http://gateway-api-service.campus-namespace.svc.cluster.local:8000
+            - name: ASPNETCORE_URLS
+              value: http://0.0.0.0:8200
+            # RabbitMQ
+            - name: RabbitMQOptions__HostName
+              value: rabbitmq-service.campus-namespace.svc.cluster.local
+            - name: RabbitMQOptions__Port
+              value: '5672'
+            - name: RabbitMQOptions__QueueName
+              value: campus
+            - name: RabbitMQOptions__BrokerName
+              value: campus_event_bus
+          envFrom:
+          - secretRef:
+              name: users-api-secrets
+          resources:
+            limits:
+              memory: 1024Mi
+              cpu: "0.2"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"

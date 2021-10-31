@@ -1,0 +1,34 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-api-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: gateway-api
+  template:
+    metadata:
+      labels:
+        app: gateway-api
+    spec:
+      containers:
+        - image: docker_campus_gateway_api:latest
+          imagePullPolicy: Never
+          name: gateway-api
+          ports:
+            - containerPort: 8000
+          env:
+            - name: Services__Hosts__Learn
+              value: http://learn-api-service.campus-namespace:8100
+            - name: Services__Hosts__Users
+              value: http://users-api-service.campus-namespace:8200
+          resources:
+            limits:
+              memory: 1024Mi
+              cpu: "0.2"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
