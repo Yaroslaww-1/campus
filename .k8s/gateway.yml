@@ -27,15 +27,15 @@ spec:
     - name: "backend"
       match:
       - uri:
-          prefix: /
+          prefix: /api
       route:
         - destination:
             host: gateway-api-service
             port:
               number: 8000
-    # - name: "frontend"
-    #   route:
-    #     - destination:
-    #         host: frontend-service
-    #         port:
-    #           number: 80
+    - name: "frontend"
+      route:
+        - destination:
+            host: frontend-service
+            port:
+              number: 80
