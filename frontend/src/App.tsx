@@ -14,7 +14,7 @@ import {
   Auth,
 } from "./pages";
 
-import { PrivateRoute, defaultProtectedRouteProps } from "@components/privateRoute/privateRoute";
+import { PrivateRoute } from "@components/privateRoute/privateRoute";
 
 export const App = () => {
   return (
@@ -22,12 +22,12 @@ export const App = () => {
       <Header></Header>
       <Switch>
         <Route exact path={AppRoute.HOME} component={HomePage} />
-        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.POSTS} component={PostsPage} />
-        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.USERS} component={UsersPage} />
-        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.USER} component={UserProfilePage} />
-        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.SCHEDULE} component={SchedulePage} />
-        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.COURSES} />
-        <PrivateRoute {...defaultProtectedRouteProps} path={AppRoute.UPDATEUSERAVATAR} component={UpdateUserAvatar} />
+        <PrivateRoute path={AppRoute.POSTS} component={PostsPage} />
+        <PrivateRoute path={AppRoute.USERS} component={UsersPage} />
+        <PrivateRoute path={AppRoute.USER} component={UserProfilePage} />
+        <PrivateRoute path={AppRoute.SCHEDULE} component={SchedulePage} />
+        <PrivateRoute path={AppRoute.COURSES} />
+        <PrivateRoute path={AppRoute.UPDATEUSERAVATAR} component={UpdateUserAvatar} />
         <Route path={[AppRoute.LOGIN, AppRoute.SIGNUP]} component={Auth} />
       </Switch>
     </>

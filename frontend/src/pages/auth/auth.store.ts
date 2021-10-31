@@ -5,7 +5,6 @@ import { AuthService } from "@api/services/auth.service";
 
 export class AuthStore {
   isLoggedIn = false;
-  isSignedUp = true;
   token = "";
   path = "/";
   constructor() {
@@ -17,9 +16,14 @@ export class AuthStore {
   }
 
   async login(values : string){
-    await this.setToken(values)
-      .then( ()  => {this.isLoggedIn = true;})
-      .catch(err => {this.isLoggedIn = false;});
+    try{
+      await this.setToken(values);
+      this.isLoggedIn = true;
+      return this.token;
+    }
+    catch{
+      this.isLoggedIn = false;
+    }
   }
 
   async setToken(values : string){
@@ -43,10 +47,14 @@ export class AuthStore {
 
   async signUp(values : string) {
     //TODO: add user to userslist
-    await this.setToken(values)
-      .then( ()  => {this.isLoggedIn = true;})
-      .catch(err => {this.isLoggedIn = false;});
-    return this.token;
+    try{
+      await this.setToken(values);
+      this.isLoggedIn = true;
+      return this.token;
+    }
+    catch{
+      this.isLoggedIn = false;
+    }
   }
 
   logout() {

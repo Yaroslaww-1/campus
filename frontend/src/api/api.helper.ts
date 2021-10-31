@@ -13,10 +13,10 @@ class Api {
     this.instance = axios.create({
       baseURL: BASE_URL,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
     });
-    this.commonHeaders = { "Content-Type": "application/x-www-form-urlencoded" };
+    this.commonHeaders = { "Content-Type": "application/json" };
   }
 
   async get<Response = unknown, Params = unknown>(url: string, params?: Params): Promise<Response> {
@@ -30,9 +30,11 @@ class Api {
     return this.validateAndReturnResponse<Response>(response);
   }
 
-  async post<Response = unknown, Payload = unknown>(url: string, payload: Payload): Promise<Response> {
+  async post<Response = unknown, Payload = unknown>(url: string, payload: Payload, contentType?: string ): Promise<Response> {
     const response = await this.instance
-      .post(url, payload, {
+      .post(url, payload, contentType? {
+        headers: { "Content-Type": contentType },
+      }:{
         headers: this.commonHeaders,
       })
       .then(({ data }) => data)
@@ -90,7 +92,7 @@ class ApiWithAuth extends Api {
     this.instance = axios.create({
       baseURL: BASE_URL,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
       withCredentials: true,
     });
