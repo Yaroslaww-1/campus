@@ -13,11 +13,13 @@
 https://minikube.sigs.k8s.io/docs/handbook/host-access/ + https://gist.github.com/zenorocha/18b10a14b2deb214dc4ce43a2d2e2992
 8. Create campus namespace:\
 `kubectl create -f campus.namespace.yml`
+8. Install istio and run:
+`kubectl label namespace campus-namespace istio-injection=enabled`
 9. Create .env folder using .env.example. Load these secrets to k8s:\
 `kubectl create secret generic learn-api-secrets --from-env-file=.env/learn.env --namespace=campus-namespace`
 `kubectl create secret generic users-api-secrets --from-env-file=.env/users.env --namespace=campus-namespace`
 10. Run k8s:\
-`kubectl apply -f frontend -f rabbitmq -f gateway-api -f users -f learn -f ingress.yml --namespace=campus-namespace`
+`kubectl apply -f frontend -f rabbitmq -f gateway-api -f users -f learn -f gateway.yml --namespace=campus-namespace`
 11. Run `minikube ip` to get running service ip
 
 ## Useful commands:
@@ -33,8 +35,6 @@ https://minikube.sigs.k8s.io/docs/handbook/host-access/ + https://gist.github.co
 4. Get deployment logs:\
 `kubectl logs deploy/learn-api-deployment --namespace=campus-namespace`
 `kubectl logs deploy/frontend-deployment --namespace=campus-namespace`
-5. Delete ingress:\
-`kubectl delete ingress campus-ingress`
 6.
 `kubectl delete --all deployments --namespace=campus-namespace`
 6. Delete everything:\

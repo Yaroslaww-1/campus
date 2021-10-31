@@ -31,7 +31,7 @@ spec:
               value: '*'
             # RabbitMQ
             - name: RABBITMQ_HOST_NAME
-              value: rabbitmq-service.campus-namespace
+              value: rabbitmq-service.campus-namespace.svc.cluster.local
             - name: RABBITMQ_PORT
               value: '5672'
             - name: RABBITMQ_QUEUE_NAME
@@ -47,6 +47,13 @@ spec:
               value: host.minikube.internal
             - name: DB_PORT
               value: '7433'
+          command:
+          - /bin/bash
+          - -c
+          - |
+            sleep 30
+            python manage.py migrate learn
+            python manage.py runserver
           envFrom:
           - secretRef:
               name: learn-api-secrets

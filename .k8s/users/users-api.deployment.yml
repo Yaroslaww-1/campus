@@ -22,7 +22,7 @@ spec:
             - containerPort: 8200
           env:
             - name: UrlsOptions__GatewayApiUrl
-              value: http://gateway-api-service.campus-namespace.svc.cluster.local:8000
+              value: http://users-api-service.campus-namespace:8200
             - name: ASPNETCORE_URLS
               value: http://0.0.0.0:8200
             # RabbitMQ
