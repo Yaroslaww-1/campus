@@ -6,7 +6,7 @@ import styles from "./styles.module.scss";
 
 export const CreatePost: React.FC = () => {
   const BASE_URL = process.env.REACT_APP_API_URL;
-  const endpoint = "posts";
+  const endpoint = "api/learn/posts";
 
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
