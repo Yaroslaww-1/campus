@@ -13,6 +13,7 @@ import {
   UpdateUserAvatar,
   Auth,
 } from "./pages";
+import { CreatePost } from "@pages/posts/components/create-post";
 
 export const App = () => {
   return (
@@ -24,8 +25,9 @@ export const App = () => {
         <Route path={AppRoute.USERS} component={UsersPage} />
         <Route path={AppRoute.USER} component={UserProfilePage} />
         <Route path={AppRoute.SCHEDULE} component={SchedulePage} />
-        <Route path={AppRoute.UPDATEUSERAVATAR} component={UpdateUserAvatar} />
+        <Route path={AppRoute.UPDATE_USER_AVATAR} component={UpdateUserAvatar} />
         <Route path={[AppRoute.LOGIN, AppRoute.SIGNUP]} component={Auth} />
+        <Route path={AppRoute.CREATE_POST} component={CreatePost} />
       </Switch>
     </>
   );

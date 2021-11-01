@@ -19,8 +19,8 @@ def process_posts(request):
         posts = GetPostsQuery().execute()
         return JsonResponse(DtoSerializer.to_dict(posts, many=True), safe=False)
     elif request.method == "POST":
-        dto = DtoSerializer.from_json(request.data, CreatePostCommandDto)
-        post = CreatePostCommand().execute(dto)
+        dto = DtoSerializer.from_json(request.data.dict(), CreatePostCommandDto)
+        post = CreatePostCommand().execute(dto, AuthenticatedUserContext(request).user_id)
         return JsonResponse(DtoSerializer.to_dict(post), safe=False)
 
 
