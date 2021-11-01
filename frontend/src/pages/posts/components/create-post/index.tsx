@@ -1,21 +1,15 @@
 import React, { useState } from "react";
 
-import api from "../../../../api/api.helper";
+import { PostsService } from "@api/services/posts.service";
 
 import styles from "./styles.module.scss";
 
 export const CreatePost: React.FC = () => {
-  const BASE_URL = process.env.REACT_APP_API_URL;
-  const endpoint = "api/learn/posts";
-
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
 
   function onSubmit() {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("content", content);
-    api.post(BASE_URL + endpoint, formData);
+    PostsService.createPost(name, content);
   }
 
   return (
