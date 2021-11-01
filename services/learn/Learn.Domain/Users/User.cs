@@ -5,12 +5,10 @@ namespace Learn.Domain.Users
 {
     public class User
     {
-        public Guid Id { get; private set; }
+        public UserId Id { get; private set; }
         public string Email { get; private set; }
         public string Name { get; private set; }
-        public string PasswordHash { get; private set; }
-        public string PasswordHashSalt { get; private set; }
-        public IList<Role> Roles { get; private set; }
+        public List<Role> Roles { get; private set; }
 
         private User()
         {
@@ -18,18 +16,37 @@ namespace Learn.Domain.Users
         }
 
         private User(
+            UserId id,
             string email,
             string name,
-            string passwordHash,
-            string passwordHashSalt,
             List<Role> roles)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Email = email;
             Name = name;
-            PasswordHash = passwordHash;
-            PasswordHashSalt = passwordHashSalt;
             Roles = roles;
+        }
+
+        private User(string email, string name, List<Role> roles)
+        {
+            Id = new UserId(Guid.NewGuid());
+            Email = email;
+            Name = name;
+            Roles = roles;
+        }
+
+        public static User CreateNew(string email, string name, List<Role> roles)
+        {
+            return new User(email, name, roles);
+        }
+
+        public static User Initialize(
+            UserId id,
+            string email,
+            string name,
+            List<Role> roles)
+        {
+            return new User(id, email, name, roles);
         }
     }
 }

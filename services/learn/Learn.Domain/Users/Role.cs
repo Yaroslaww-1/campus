@@ -5,9 +5,9 @@ namespace Learn.Domain.Users
 {
     public class Role
     {
-        public Guid Id { get; private set; }
+        public RoleId Id { get; private set; }
         public string Name { get; private set; }
-        public IList<User> Users { get; private set; }
+        public List<User> Users { get; private set; }
 
         private Role()
         {
@@ -16,7 +16,7 @@ namespace Learn.Domain.Users
 
         private Role(string name)
         {
-            Id = Guid.NewGuid();
+            Id = new RoleId(Guid.NewGuid());
             Name = name;
             Users = new List<User>();
         }

@@ -51,6 +51,8 @@ namespace Users
             {
                 endpoints.MapControllers();
             });
+
+            app.ConfigureInfrastructure();
         }
     }
 }

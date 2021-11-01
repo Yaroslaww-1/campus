@@ -1,6 +1,10 @@
+using Learn.BuildingBlocks.Infrastructure;
 using Learn.BuildingBlocks.Infrastructure.Options;
 using Learn.Infrastructure.EntityFramework;
+using Learn.Infrastructure.EntityFramework.Seeding;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -15,6 +19,21 @@ namespace Learn.Infrastructure
             services.AddDatabaseContext(configuration);
 
             return services;
+        }
+
+        public static IApplicationBuilder ConfigureInfrastructure(this IApplicationBuilder app, bool migrate = true, bool seed = true)
+        {
+            if (migrate)
+            {
+                MigrateDatabase(app);
+            }
+
+            if (seed)
+            {
+                SeedDatabase(app);
+            }
+
+            return app;
         }
 
         private static IServiceCollection AddOptions(this IServiceCollection services, IConfiguration configuration)
@@ -32,14 +51,32 @@ namespace Learn.Infrastructure
 			var migrationAssembly = typeof(LearnDbContext).Assembly.GetName().Name;
 
 			services.AddDbContext<LearnDbContext>(options =>
-				options
-					.UseNpgsql(
-						databaseOptions.ConnectionString,
-						opt => opt.MigrationsAssembly(migrationAssembly))
-					.UseSnakeCaseNamingConvention()
-			);
+            {
+                options
+                    .UseNpgsql(
+                        databaseOptions.ConnectionString,
+                        opt => opt.MigrationsAssembly(migrationAssembly))
+                    .UseSnakeCaseNamingConvention();
+
+                options.ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>();
+            });
 
             return services;
         }
-	}
+
+		public static void MigrateDatabase(IApplicationBuilder app)
+		{
+			using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+			{
+				using var context = scope.ServiceProvider.GetRequiredService<LearnDbContext>();
+				context.Database.Migrate();
+			};
+		}
+
+        public static void SeedDatabase(IApplicationBuilder app)
+        {
+            var databaseSeeder = new DatabaseSeeder(app);
+            databaseSeeder.SeedDatabase();
+        }
+    }
 }
