@@ -1,7 +1,14 @@
-FROM python:3 as builder
-ENV PYTHONUNBUFFERED=1
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS builder
 WORKDIR /app
-COPY requirements.txt /app/
-RUN pip install -r requirements.txt
-COPY . /app/
-CMD ["python", "manage.py", "runserver"]
+
+COPY Learn.csproj ./
+RUN dotnet restore Learn.csproj
+
+COPY . ./source/
+WORKDIR /app/source
+RUN dotnet publish -c release -o /release
+
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
+WORKDIR /release
+COPY --from=builder /release ./
+ENTRYPOINT ["dotnet", "Learn.dll"]
