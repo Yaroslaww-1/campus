@@ -8,7 +8,8 @@ namespace Learn.Application.Users.MappingProfiles
     {
         public RoleMapperProfile()
         {
-            CreateMap<Role, RoleDto>();
+            CreateMap<Role, RoleDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value));
         }
     }
 }

@@ -8,7 +8,8 @@ namespace Learn.Application.Users.MappingProfiles
     {
         public UserMapperProfile()
         {
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value));
         }
     }
 }

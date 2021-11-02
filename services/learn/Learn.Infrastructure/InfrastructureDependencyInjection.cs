@@ -1,13 +1,17 @@
+using Learn.BuildingBlocks.Application.ExecutionContext;
+using Learn.BuildingBlocks.ExecutionContext;
 using Learn.BuildingBlocks.Infrastructure;
 using Learn.BuildingBlocks.Infrastructure.Options;
+using Learn.Domain.Chats;
 using Learn.Infrastructure.EntityFramework;
+using Learn.Infrastructure.EntityFramework.Repositories.Users;
 using Learn.Infrastructure.EntityFramework.Seeding;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Learn.Infrastructure
 {
@@ -17,6 +21,9 @@ namespace Learn.Infrastructure
         {
             services.AddOptions(configuration);
             services.AddDatabaseContext(configuration);
+
+            services.AddRepositories();
+            services.AddUserContext();
 
             return services;
         }
@@ -40,6 +47,22 @@ namespace Learn.Infrastructure
         {
             services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Location));
             services.Configure<UrlsOptions>(configuration.GetSection(UrlsOptions.Location));
+
+            return services;
+        }
+
+        private static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddTransient<IChatRepository, ChatRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddUserContext(this IServiceCollection services)
+        {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IExecutionContextAccessor, ExecutionContextAccessor>();
+            services.AddSingleton<IUserContext, UserContext>();
 
             return services;
         }

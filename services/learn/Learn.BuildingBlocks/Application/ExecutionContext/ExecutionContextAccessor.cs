@@ -17,29 +17,17 @@ namespace Learn.BuildingBlocks.ExecutionContext
         {
             get
             {
-                //http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier
-                if (_httpContextAccessor
-                    .HttpContext?
-                    .User?
-                    .Claims?
-                    .SingleOrDefault(x => x.Type.Contains("email"))?
-                    .Value != null)
-                {
-                    return _httpContextAccessor.HttpContext.User.Claims.Single(
-                        x => x.Type.Contains("email")).Value;
-                }
-
                 if ((bool)(_httpContextAccessor
                     .HttpContext?
                     .Request?
                     .Headers?
-                    .ContainsKey("email")))
+                    .ContainsKey("UserEmail")))
                 {
                     return _httpContextAccessor
                         .HttpContext?
                         .Request?
                         .Headers?
-                        ["email"];
+                        ["UserEmail"];
                 }
 
                 throw new ApplicationException("User context is not available");

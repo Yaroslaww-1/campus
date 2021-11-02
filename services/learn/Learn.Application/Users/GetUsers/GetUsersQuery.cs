@@ -33,7 +33,7 @@ namespace Learn.Application.Users.GetUsers
             var users = await _dbContext.Users
                 .WithSpecification(new UserAggregateSpecification())
                 .AsNoTracking()
-                .ToListAsync(cancellationToken: cancellationToken);
+                .ToListAsync();
 
             return _mapper.Map<IEnumerable<UserDto>>(users);
         }

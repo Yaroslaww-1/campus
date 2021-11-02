@@ -3,15 +3,17 @@ using System;
 using Learn.Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Learn.Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(LearnDbContext))]
-    partial class LearnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211102192744_AddChats")]
+    partial class AddChats
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,10 +27,6 @@ namespace Learn.Infrastructure.EntityFramework.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid?>("CreatedById")
-                        .HasColumnType("uuid")
-                        .HasColumnName("created_by_id");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
@@ -36,9 +34,6 @@ namespace Learn.Infrastructure.EntityFramework.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_chat");
-
-                    b.HasIndex("CreatedById")
-                        .HasDatabaseName("ix_chat_created_by_id");
 
                     b.ToTable("chat");
                 });
@@ -133,16 +128,6 @@ namespace Learn.Infrastructure.EntityFramework.Migrations
                         .HasDatabaseName("ix_user_role_user_id");
 
                     b.ToTable("user_role");
-                });
-
-            modelBuilder.Entity("Learn.Domain.Chats.Chat", b =>
-                {
-                    b.HasOne("Learn.Domain.Users.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .HasConstraintName("fk_chat_users_created_by_id");
-
-                    b.Navigation("CreatedBy");
                 });
 
             modelBuilder.Entity("Learn.Domain.Chats.ChatMember", b =>
